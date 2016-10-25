@@ -1,11 +1,11 @@
 <?php
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
-use Globalis\Robo\Task\GitFlow\Base;
+use Globalis\Robo\Task\GitFlow\BaseFinish;
 use Robo\Result;
 
 /**
- * Finish a new Feature
+ * Finish a Feature
  *
  * ``` php
  * <?php
@@ -21,43 +21,9 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Finish extends Base
+class Finish extends BaseFinish
 {
-    protected $fetchFlag = true;
-    protected $rebaseFlag = true;
-    protected $pushFlag = true;
-    protected $deleteBranchAfter = true;
     protected $prefixBranch = 'feature_';
-
-    public function fetchFlag($fetchFlag)
-    {
-        $this->fetchFlag = $fetch;
-        return $this;
-    }
-
-    public function rebaseFlag($rebaseFlag)
-    {
-        $this->rebaseFlag = $rebaseFlag;
-        return $this;
-    }
-
-    public function deleteBranchAfter($deleteBranchAfter)
-    {
-        $this->deleteBranchAfter = $deleteBranchAfter;
-        return $this;
-    }
-
-    public function prefixBranch($prefixBranch)
-    {
-        $this->prefixBranch = $prefixBranch;
-        return $this;
-    }
-
-    public function pushFlag($pushFlag)
-    {
-        $this->pushFlag = $pushFlag;
-        return $this;
-    }
 
     /**
      * {@inheritdoc}

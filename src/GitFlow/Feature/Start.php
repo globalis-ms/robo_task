@@ -20,20 +20,7 @@ use Robo\Result;
  */
 class Start extends Base
 {
-    protected $fetchFlag = true;
     protected $prefixBranch = 'feature_';
-
-    public function fetchFlag($fetchFlag)
-    {
-        $this->fetchFlag = $fetch;
-        return $this;
-    }
-
-    public function prefixBranch($prefixBranch)
-    {
-        $this->prefixBranch = $prefixBranch;
-        return $this;
-    }
 
     /**
      * {@inheritdoc}

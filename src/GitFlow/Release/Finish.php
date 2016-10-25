@@ -1,11 +1,11 @@
 <?php
 namespace Globalis\Robo\Task\GitFlow\Release;
 
-use Globalis\Robo\Task\GitFlow\Base;
+use Globalis\Robo\Task\GitFlow\BaseFinish;
 use Robo\Result;
 
 /**
- * Finish a new Feature
+ * Finish a release
  *
  * ``` php
  * <?php
@@ -24,55 +24,36 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Finish extends Base
+class Finish extends BaseFinish
 {
-    protected $fetchFlag = true;
-    protected $rebaseFlag = true;
-    protected $deleteBranchAfter = true;
     protected $prefixBranch = 'release_';
-    protected $pushFlag = true;
+
     protected $noTag = false;
+
     protected $tagMessage = null;
 
-    public function fetchFlag($fetchFlag)
-    {
-        $this->fetchFlag = $fetch;
-        return $this;
-    }
-
-    public function rebaseFlag($rebaseFlag)
-    {
-        $this->rebaseFlag = $rebaseFlag;
-        return $this;
-    }
-
-    public function deleteBranchAfter($deleteBranchAfter)
-    {
-        $this->deleteBranchAfter = $deleteBranchAfter;
-        return $this;
-    }
-
-    public function prefixBranch($prefixBranch)
-    {
-        $this->prefixBranch = $prefixBranch;
-        return $this;
-    }
-
+    /**
+     * Set noTag flag, tag master branch if is false
+     *
+     * @param  boolean $noTag
+     * @return $this
+     */
     public function noTag($noTag)
     {
         $this->noTag = $noTag;
         return $this;
     }
 
-    public function pushFlag($pushFlag)
-    {
-        $this->pushFlag = $pushFlag;
-        return $this;
-    }
-
+    /**
+     *  Set tag message
+     *
+     * @param  string $tagMessage
+     * @return $this
+     */
     public function tagMessage($tagMessage)
     {
         $this->tagMessage = $tagMessage;
+        return $this;
     }
 
     /**

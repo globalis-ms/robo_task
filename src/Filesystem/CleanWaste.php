@@ -3,12 +3,19 @@ namespace Globalis\Robo\Task\Filesystem;
 use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Task\Filesystem\BaseDir;
+
 /**
  * Deletes all files from specified dir, ignoring git files.
  *
  * ``` php
  * <?php
- * $this->taskCleanDir(['tmp','logs'])->inclue(['include_pattern'])->run();
+ * $this->taskCleanDir(['tmp','logs'])
+ * ->wastePatterns([
+ *     "/\.DS_Store/",
+ *     "/Thumbs\.db/",
+ *     "/.*~/",
+ *     "/\._.*\/",
+ *  ])->run();
  * ?>
  * ```
  */
@@ -23,12 +30,21 @@ class CleanWaste extends BaseDir
         "/\._.*/",
     ];
 
+    /**
+     * Set waste patterns to delete
+     *
+     * @param  array  $wastePatterns
+     * @return $this
+     */
     public function wastePatterns(array $wastePatterns)
     {
         $this->wastePatterns = $wastePatterns;
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {

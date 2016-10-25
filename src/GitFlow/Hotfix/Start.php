@@ -5,7 +5,7 @@ use Globalis\Robo\Task\GitFlow\Base;
 use Robo\Result;
 
 /**
- * Start a new Feature
+ * Start a new Hotfix
  *
  * ``` php
  * <?php
@@ -20,21 +20,7 @@ use Robo\Result;
  */
 class Start extends Base
 {
-    protected $fetchFlag = true;
-
     protected $prefixBranch = "hotfix_";
-
-    public function fetchFlag($fetchFlag)
-    {
-        $this->fetchFlag = $fetch;
-        return $this;
-    }
-
-    public function prefixBranch($prefixBranch)
-    {
-        $this->prefixBranch = $prefixBranch;
-        return $this;
-    }
 
     /**
      * {@inheritdoc}

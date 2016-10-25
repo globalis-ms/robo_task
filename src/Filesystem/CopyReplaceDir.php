@@ -37,8 +37,6 @@ class CopyReplaceDir extends BaseTask
 
     protected $to;
 
-    protected $regex;
-
     protected $startDelimiter = '#';
 
     protected $endDelimiter = '#';
@@ -55,32 +53,48 @@ class CopyReplaceDir extends BaseTask
         $this->fs = new sfFilesystem();
     }
 
-
+     /**
+      * Set string(s) to be replaced
+      * @param string|array $from
+      * @return $this
+      */
     public function from($from)
     {
         $this->from = $from;
         return $this;
     }
 
+    /**
+     * Set value(s) to be set as a replacement
+     *
+     * @param string $to
+     * @return $this
+     */
     public function to($to)
     {
         $this->to = $to;
         return $this;
     }
 
-    public function regex($regex)
-    {
-        $this->regex = $regex;
-        return $this;
-    }
-
-    public function setEndDelimiter($delimiter)
+    /**
+     * Set end delimiter
+     *
+     * @param string $delimiter
+     * @return $this
+     */
+    public function endDelimiter($delimiter)
     {
         $this->endDelimiter = $delimiter;
         return $this;
     }
 
-    public function setStartDelimiter($delimiter)
+    /**
+     * Set start delimiter
+     *
+     * @param string $delimiter
+     * @return $this
+     */
+    public function startDelimiter($delimiter)
     {
         $this->startDelimiter = $delimiter;
         return $this;
@@ -122,7 +136,9 @@ class CopyReplaceDir extends BaseTask
         return $this;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {

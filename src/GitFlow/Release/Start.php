@@ -5,7 +5,7 @@ use Globalis\Robo\Task\GitFlow\Base;
 use Robo\Result;
 
 /**
- * Start a new Feature
+ * Start a new Release
  *
  * ``` php
  * <?php
@@ -13,28 +13,14 @@ use Robo\Result;
  *  ->developBranch('develop')
  *  ->repository('origin')
  *  ->fetchFlag(true)
- *  ->prefixBranch('relase_')
+ *  ->prefixBranch('release_')
  *  ->run();
  * ?>
  * ```
  */
 class Start extends Base
 {
-    protected $fetchFlag = true;
-
     protected $prefixBranch = "release_";
-
-    public function fetchFlag($fetchFlag)
-    {
-        $this->fetchFlag = $fetch;
-        return $this;
-    }
-
-    public function prefixBranch($prefixBranch)
-    {
-        $this->prefixBranch = $prefixBranch;
-        return $this;
-    }
 
     /**
      * {@inheritdoc}

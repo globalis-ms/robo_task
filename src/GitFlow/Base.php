@@ -16,6 +16,10 @@ abstract class Base extends BaseTask
 
     protected $masterBranch = 'master';
 
+    protected $prefixBranch = '';
+
+    protected $fetchFlag = true;
+
     protected $name;
 
     public function __construct($name, $pathToGit = 'git')
@@ -24,28 +28,63 @@ abstract class Base extends BaseTask
         $this->pathToGit = $pathToGit;
     }
 
-
-    public function name($name)
-    {
-        $this->name =$name;
-        return $this;
-    }
-
+    /**
+     * Set main repository
+     *
+     * @param  string $repository
+     * @return $this
+     */
     public function repository($repository)
     {
         $this->repository = $repository;
         return $this;
     }
 
+    /**
+     * Set develop branch name
+     *
+     * @param  string $developBranch
+     * @return $this
+     */
     public function developBranch($developBranch)
     {
         $this->developBranch = $developBranch;
         return $this;
     }
 
+    /**
+     * Set master branch name
+     *
+     * @param  string $masterBranch
+     * @return $this
+     */
     public function masterBranch($masterBranch)
     {
         $this->masterBranch = $masterBranch;
+        return $this;
+    }
+
+    /**
+     * Set prefix branch
+     *
+     * @param  string $prefixBranch
+     * @return $this
+     */
+    public function prefixBranch($prefixBranch)
+    {
+        $this->prefixBranch = $prefixBranch;
+        return $this;
+    }
+
+    /**
+     * Set fetch flag, fetch all if is true
+     *
+     * @param  bool $fetchFlag
+     * @return $this
+     */
+    public function fetchFlag($fetchFlag)
+    {
+        $this->fetchFlag = $fetch;
         return $this;
     }
 }

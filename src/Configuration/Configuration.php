@@ -14,10 +14,10 @@ use Robo\Task\BaseTask;
  * <?php
  * $this->taskConfiguration()
  *  ->initConfig(
- *     config_key' => [
+ *     'config_key' => [
  *        'question' => 'question ?',
  *        'default' => 'ddd',
- *        'choises' => ['choice']
+ *        'choices' => ['choice']
  *     ]
  *  ])
  *  ->initSettings([
@@ -28,8 +28,9 @@ use Robo\Task\BaseTask;
  *          'question' => 'question ?',
  *      ]
  *  ]),
- *  ->setLocalFilePath($localFilePath) // Default User Home
- *  ->setConfigFilePath($configFilePath) // Project Dir / .my_config
+ *  ->localFilePath($localFilePath)
+ *  ->configFilePath($configFilePath)
+ *  ->force()
  *  ->run();
  * ?>
  * ```
@@ -76,37 +77,80 @@ class Configuration extends BaseTask
         return empty($home) ? NULL : $home;
     }
 
+    /**
+     * Init config variables
+     *
+     * @param  array  $config
+     * @return $this
+     */
     public function initConfig(array $config)
     {
         $this->configDefinition = $config;
+        return $this;
     }
 
+    /**
+     * Init settings variables
+     *
+     * @param  array  $config [description]
+     * @return $this
+     */
     public function initSettings(array $config)
     {
         $this->settings = $config;
+        return $this;
     }
 
+    /**
+     * Init settings variables
+     *
+     * @param  array  $config
+     * @return $this
+     */
     public function initLocal(array $config)
     {
         $this->localConfigDefinition = $config;
+        return $this;
     }
 
-    public function setLocalFilePath($filePath)
+    /**
+     * Set local file path, Default User Home
+     *
+     * @param string $filePath
+     * @return $this
+     */
+    public function localFilePath($filePath)
     {
         $this->localConfigFilePath = $filePath;
+        return $this;
     }
 
-    public function setConfigFilePath($filePath)
+    /**
+     * Set config file path, default Project Dir / .my_config
+     *
+     * @param string $filePath
+     * @return $this
+     */
+    public function configFilePath($filePath)
     {
         $this->configFilePath = $filePath;
+        return $this;
     }
 
+    /**
+     * Force question
+     *
+     * @return $this
+     */
     public function force()
     {
         $this->force = true;
+        return $this;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->loadLocal();

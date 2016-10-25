@@ -1,5 +1,5 @@
 <?php
-namespace Globalis\Task\Common\File;
+namespace Globalis\Robo\Task\File;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
@@ -59,19 +59,8 @@ class ReplacePlaceholders extends BaseTask
     }
 
     /**
-     * @param string $filename
-     *
-     * @return $this
-     */
-    public function filename($filename)
-    {
-        $this->filename = $filename;
-        return $this;
-    }
-
-    /**
-     * @param string $from
-     *
+     * Set string(s) to be replaced
+     * @param string|array $from
      * @return $this
      */
     public function from($from)
@@ -81,8 +70,9 @@ class ReplacePlaceholders extends BaseTask
     }
 
     /**
-     * @param string $to
+     * Set value(s) to be set as a replacement
      *
+     * @param string $to
      * @return $this
      */
     public function to($to)
@@ -92,13 +82,26 @@ class ReplacePlaceholders extends BaseTask
     }
 
     /**
-     * @param string $regex
+     * Set end delimiter
      *
+     * @param string $delimiter
      * @return $this
      */
-    public function regex($regex)
+    public function endDelimiter($delimiter)
     {
-        $this->regex = $regex;
+        $this->endDelimiter = $delimiter;
+        return $this;
+    }
+
+    /**
+     * Set start delimiter
+     *
+     * @param string $delimiter
+     * @return $this
+     */
+    public function startDelimiter($delimiter)
+    {
+        $this->startDelimiter = $delimiter;
         return $this;
     }
 
