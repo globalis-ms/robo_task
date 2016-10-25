@@ -37,7 +37,7 @@ trait Common
 
     protected function fetchAll()
     {
-        $process = $this->getBaseCommand('fetch')
+        $this->getBaseCommand('fetch')
             ->option('-q')
             ->option('--all')
             ->execute();
@@ -101,7 +101,7 @@ trait Common
 
     protected function createBranch($branchName, $baseBranch)
     {
-        $process = $this->getBaseCommand('checkout')
+        $this->getBaseCommand('checkout')
             ->option('-b')
             ->args([$branchName, $baseBranch])
             ->execute();
@@ -155,7 +155,7 @@ trait Common
         $branches = $this->getLocalBranches();
         $remotes = $this->getRemotes();
         $remoteBranches = $this->getRemoteBranches();
-        foreach ($remoteBranches as $key => $value) {
+        foreach ($remoteBranches as $value) {
             foreach ($remotes as $remote) {
                 if ($value = preg_replace('/^' . preg_quote($remote) . '\//', '', $value, 1)) {
                     $branches[] = $value;

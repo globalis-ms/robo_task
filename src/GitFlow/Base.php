@@ -84,7 +84,7 @@ abstract class Base extends BaseTask
      */
     public function fetchFlag($fetchFlag)
     {
-        $this->fetchFlag = $fetch;
+        $this->fetchFlag = $fetchFlag;
         return $this;
     }
 }

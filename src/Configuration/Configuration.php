@@ -191,7 +191,6 @@ class Configuration extends BaseTask
     private function checkConfig(array $definition, array $config)
     {
         // Load config sample
-        $return = false;
         foreach ($definition as $key => $value) {
             if (!isset($config[$key])) {
                 return false;

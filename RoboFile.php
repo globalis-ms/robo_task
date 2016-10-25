@@ -5,12 +5,26 @@ use Robo\Collection\CollectionBuilder;
 class RoboFile extends \Robo\Tasks
 {
     /**
+     * Mess detector.
+     *
+     * Run the PHP Mess Detector on a file or directory.
+     *
+     * @param string $file A file or directory to analyze.
+     * @param string $type A report format.
+     */
+    public function mess($file = 'src/', $type = 'text')
+    {
+        $this->taskExec("./vendor/bin/phpmd")
+            ->args([$file, $type, 'design,unusedcode'])
+            ->run();
+    }
+
+    /**
      * Code sniffer.
      *
      * Run the PHP Codesniffer on a file or directory.
      *
-     * @param string $file
-     *    A file or directory to analyze.
+     * @param string $file A file or directory to analyze.
      * @option $autofix Whether to run the automatic fixer or not.
      * @option $strict Show warnings as well as errors.
      *    Default is to show only errors.
