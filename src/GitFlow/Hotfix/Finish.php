@@ -93,7 +93,7 @@ class Finish extends BaseFinish
         }
 
         if (!$this->branchesEqual($this->masterBranch, $this->repository . '/' . $this->masterBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged",  $this->masterBranch, $this->repository . '/' . $this->masterBranch));
+            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
             return false;
         }
 

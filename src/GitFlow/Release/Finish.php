@@ -93,7 +93,7 @@ class Finish extends BaseFinish
         }
 
         if ($this->remoteBranchExists($this->repository, $this->masterBranch) && !$this->branchesEqual($this->masterBranch, $this->repository . '/' . $this->masterBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged",  $this->masterBranch, $this->repository . '/' . $this->masterBranch));
+            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
             return false;
         }
 
@@ -103,7 +103,7 @@ class Finish extends BaseFinish
         }
 
         if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged",  $this->developBranch, $this->repository . '/' . $this->developBranch));
+            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
             return false;
         }
 

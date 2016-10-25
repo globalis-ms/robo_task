@@ -1,5 +1,6 @@
 <?php
 namespace Globalis\Robo\Task\Filesystem;
+
 use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Task\Filesystem\BaseDir;

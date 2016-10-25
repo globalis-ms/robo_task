@@ -124,7 +124,7 @@ class ReplacePlaceholders extends BaseTask
                     $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
                 }
             } else {
-               $from = $this->startDelimiter . $this->from . $this->endDelimiter;
+                $from = $this->startDelimiter . $this->from . $this->endDelimiter;
             }
             $text = str_replace($from, $this->to, $text, $count);
         }

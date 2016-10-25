@@ -56,7 +56,8 @@ class Configuration extends BaseTask
     protected $force = false;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->localConfigFilePath = $this->getUserHome() .'/.robot_config';
         $this->configFilePath = getcwd() . '/my.config';
     }
@@ -74,7 +75,7 @@ class Configuration extends BaseTask
             // that doesn't happen.
             $home = rtrim($home, '\\/');
         }
-        return empty($home) ? NULL : $home;
+        return empty($home) ? null : $home;
     }
 
     /**
@@ -211,9 +212,9 @@ class Configuration extends BaseTask
                 $value = null;
                 while (!in_array($value, $option['choices'])) {
                     if (isset($option['default'])) {
-                        $value = $this->askDefault($option['question'] . ' (' . implode(',',$option['choices']) . ')', $option['default']);
+                        $value = $this->askDefault($option['question'] . ' (' . implode(',', $option['choices']) . ')', $option['default']);
                     } else {
-                        $value = $this->ask($option['question'] . ' (' . implode(',',$option['choices']) . ')');
+                        $value = $this->ask($option['question'] . ' (' . implode(',', $option['choices']) . ')');
                     }
                 }
             } else {

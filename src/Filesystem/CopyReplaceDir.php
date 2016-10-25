@@ -1,5 +1,6 @@
 <?php
 namespace Globalis\Robo\Task\Filesystem;
+
 use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Exception\TaskException;
@@ -197,7 +198,7 @@ class CopyReplaceDir extends BaseTask
                     $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
                 }
             } else {
-               $from = $this->startDelimiter . $this->from . $this->endDelimiter;
+                $from = $this->startDelimiter . $this->from . $this->endDelimiter;
             }
             $text = str_replace($from, $this->to, $text, $count);
         }
@@ -207,6 +208,5 @@ class CopyReplaceDir extends BaseTask
         }
         chmod($dst, $this->filePermissions);
         $this->printTaskInfo('Copied from {source} to {destination}. {count} items replaced.', ['source' => $src, 'destination' => $dst, 'count' => $count]);
-
     }
 }

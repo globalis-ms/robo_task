@@ -45,5 +45,4 @@ abstract class BaseFinish extends Base
         $this->pushFlag = $pushFlag;
         return $this;
     }
-
 }

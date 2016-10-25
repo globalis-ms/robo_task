@@ -38,7 +38,7 @@ class Command
     {
         $process = $this->getProcess();
         $process->run();
-        if (!$process->isSuccessful())  {
+        if (!$process->isSuccessful()) {
             throw new TaskException($this, $this->getErrorProcessMessage($process));
         }
         return $process;
@@ -46,7 +46,8 @@ class Command
 
     protected function getErrorProcessMessage(Process $process)
     {
-        $error = sprintf('The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
+        $error = sprintf(
+            'The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
             $process->getCommandLine(),
             $process->getExitCode(),
             $process->getExitCodeText(),
