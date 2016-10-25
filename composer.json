@@ -1,0 +1,25 @@
+{
+    "name": "globalis/robo-common-task",
+    "description": "Robo task common collection",
+    "license": "MIT",
+    "type": "robo-tasks",
+    "minimum-stability": "RC",
+    "authors": [
+        {
+            "name": "Romain Gugert",
+            "email": "romain.gugert@globalis-ms.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Globalis\\Robo\\Task\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "consolidation/robo": "~1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
+    }
+}

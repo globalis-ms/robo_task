@@ -1,0 +1,38 @@
+*.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE Files
+#-------------------------
+# Eclipse
+.cache
+.settings
+.buildpath
+.project
+.vscode
+
+# Netbeans
+/nbproject
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# Don't commit composer.phar, or the .phar our build tool generates
+*.phar
+
+# Don't commit composer lock file
+**/composer.lock
+
+# composer installed dependencies
+**/vendor/*
