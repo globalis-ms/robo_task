@@ -137,4 +137,113 @@ class RoboFile extends \Robo\Tasks
         $collection->progressMessage('Documentation generation complete.');
         return $collection->run();
     }
+
+    /**
+     * Build the Robo phar executable.
+     */
+    public function pharBuild($composerPath = null)
+    {
+        // Create a collection builder to hold the temporary
+        // directory until the pack phar task runs.
+        $collection = $this->collectionBuilder();
+        $workDir = $collection->tmpDir();
+        $roboBuildDir = "$workDir/robo";
+        // Before we run `composer install`, we will remove the dev
+        // dependencies that we only use in the unit tests.  Any dev dependency
+        // that is in the 'suggested' section is used by a core task;
+        // we will include all of those in the phar.
+        $devProjectsToRemove = $this->devDependenciesToRemoveFromPhar();
+        $depProjectsToAdd = $this->dependenciesToAddFromPhar();
+        // We need to create our work dir and run `composer install`
+        // before we prepare the pack phar task, so create a separate
+        // collection builder to do this step in.
+        $prepTasks = $this->collectionBuilder();
+        $preparationResult = $prepTasks
+            ->taskFilesystemStack()
+                ->mkdir($workDir)
+            ->taskRsync()
+                ->fromPath(__DIR__ . '/')
+                ->toPath($roboBuildDir)
+                ->recursive()
+                ->exclude(
+                    [
+                        'vendor/',
+                        '.idea/',
+                        'docs/',
+                        'composer.phar',
+                        'composer.lock',
+                        'robo.phar',
+                    ]
+                )
+            ->taskComposerRemove($composerPath)
+                ->dir($roboBuildDir)
+                ->dev()
+                ->noUpdate()
+                ->printed(false)
+                ->args($devProjectsToRemove)
+            ->taskExec($composerPath . ' require ')
+                ->dir($roboBuildDir)
+                ->option('--no-update')
+                ->printed(false)
+                ->args($depProjectsToAdd)
+            ->taskComposerInstall($composerPath)
+                ->dir($roboBuildDir)
+                ->printed(false)
+                ->run();
+        // Exit if the preparation step failed
+        if (!$preparationResult->wasSuccessful()) {
+            return $preparationResult;
+        }
+        // Decide which files we're going to pack
+        $files = Finder::create()->ignoreVCS(true)
+            ->files()
+            ->name('*.php')
+            ->name('*.exe') // for 1symfony/console/Resources/bin/hiddeninput.exe
+            ->name('GeneratedWrapper.tmpl')
+            ->path('src')
+            ->path('vendor')
+            ->notPath('/vendor\/.*\/[Tt]est[s?]\//')
+            ->in($roboBuildDir);
+        // Build the phar
+        return $collection
+            ->taskPackPhar('robo.phar')
+                ->addFiles($files)
+                ->executable('vendor/bin/robo')
+            ->taskFilesystemStack()
+                ->chmod('robo.phar', 0777)
+            ->run();
+    }
+    /**
+     * The phar:build command removes the project requirements from the
+     * 'require-dev' section that are not in the 'suggest' section.
+     *
+     * @return array
+     */
+    protected function devDependenciesToRemoveFromPhar()
+    {
+        $composerInfo = (array) json_decode(file_get_contents(__DIR__ . '/composer.json'));
+        $devDependencies = array_keys((array)$composerInfo['require-dev']);
+        $suggestedProjects = [];
+        if (isset($composerInfo['suggest'])) {
+            $suggestedProjects = array_keys((array)$composerInfo['suggest']);
+        }
+        return array_diff($devDependencies, $suggestedProjects);
+    }
+
+    /**
+     * The phar:build command removes the project requirements from the
+     * 'require-dev' section that are not in the 'suggest' section.
+     *
+     * @return array
+     */
+    protected function dependenciesToAddFromPhar()
+    {
+        $composerInfo = (array) json_decode(file_get_contents(__DIR__ . '/vendor/consolidation/robo/composer.json'));
+        $devDependencies = array_keys((array)$composerInfo['require-dev']);
+        $suggestedProjects = [];
+        if (isset($composerInfo['suggest'])) {
+            $suggestedProjects = array_keys((array)$composerInfo['suggest']);
+        }
+        return array_intersect($devDependencies, $suggestedProjects);
+    }
 }
