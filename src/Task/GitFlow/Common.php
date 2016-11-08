@@ -1,7 +1,7 @@
 <?php
 namespace Globalis\Robo\Task\GitFlow;
 
-use Globalis\Robo\Task\Core\Command;
+use Globalis\Robo\Core\Command;
 use Symfony\Component\Process\Process;
 
 trait Common

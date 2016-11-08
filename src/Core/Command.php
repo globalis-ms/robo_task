@@ -1,5 +1,5 @@
 <?php
-namespace Globalis\Robo\Task\Core;
+namespace Globalis\Robo\Core;
 
 use Robo\Exception\TaskException;
 use Symfony\Component\Process\Process;

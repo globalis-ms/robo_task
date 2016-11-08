@@ -1,5 +1,5 @@
 {
-    "name": "globalis/robo-common-task",
+    "name": "globalis/robo-task",
     "description": "Robo task common collection",
     "license": "MIT",
     "type": "robo-tasks",
@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Globalis\\Robo\\Task\\": "src"
+            "Globalis\\Robo\\": "src"
         }
     },
     "require": {
