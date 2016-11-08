@@ -148,28 +148,25 @@ class Finish extends BaseFinish
             $this->printTaskSuccess("The release branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
         }
 
-        if ($this->deleteBranchAfter) {
-            $this->deleteLocalBranch($branch);
-            $this->printTaskSuccess('The release branch "{branch}" has been removed', ['branch' => $branch]);
-        } else {
-            $this->printTaskInfo('The release branch "{branch}" is still available"', ['branch' => $branch]);
-        }
-
         if ($this->pushFlag) {
             $this->push($this->repository, $this->developBranch);
             $this->push($this->repository, $this->masterBranch);
-
-            if ($this->deleteBranchAfter) {
-                if ($this->remoteBranchExists($this->repository, $branch)) {
-                    $this->deleteRemoteBranch($this->repository, $branch);
-                }
-            }
-
             if ($this->noTag === false) {
                 $this->pushTags($this->repository);
             }
             $this->printTaskSuccess("'{developBranch}', '{masterBranch}' and tags have been pushed to '{repository}'", ['developBranch' => $this->developBranch, 'masterBranch' => $this->masterBranch, 'repository' => $this->repository]);
         }
+
+        if ($this->deleteBranchAfter) {
+            $this->deleteLocalBranch($branch);
+            if ($this->pushFlag && $this->remoteBranchExists($this->repository, $branch)) {
+                $this->deleteRemoteBranch($this->repository, $branch);
+            }
+            $this->printTaskSuccess('The release branch "{branch}" has been removed', ['branch' => $branch]);
+        } else {
+            $this->printTaskInfo('The release branch "{branch}" is still available"', ['branch' => $branch]);
+        }
+
         return Result::success($this);
     }
 }

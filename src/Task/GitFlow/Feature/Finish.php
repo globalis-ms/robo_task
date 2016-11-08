@@ -92,8 +92,16 @@ class Finish extends BaseFinish
         }
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
 
+        if ($this->pushFlag) {
+            $this->push($this->repository, $this->developBranch);
+            $this->printTaskSuccess("'{developBranch}' has been pushed to '{repository}'", ['developBranch' => $this->developBranch, 'repository' => $this->repository]);
+        }
+
         if ($this->deleteBranchAfter) {
             $this->deleteLocalBranch($branch);
+            if ($this->pushFlag && $this->remoteBranchExists($this->repository, $branch)) {
+                $this->deleteRemoteBranch($this->repository, $branch);
+            }
             $this->printTaskSuccess("The feature branch '{branch}' has been removed", ['branch' => $branch]);
         } else {
             $this->printTaskInfo("The feature branch '{branch}' is still available", ['branch' => $branch]);
@@ -101,17 +109,6 @@ class Finish extends BaseFinish
 
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
 
-        if ($this->pushFlag) {
-            $this->push($this->repository, $this->developBranch);
-
-            if ($this->deleteBranchAfter) {
-                if ($this->remoteBranchExists($this->repository, $branch)) {
-                    $this->deleteRemoteBranch($this->repository, $branch);
-                }
-            }
-
-            $this->printTaskSuccess("'{developBranch}' has been pushed to '{repository}'", ['developBranch' => $this->developBranch, 'repository' => $this->repository]);
-        }
         return Result::success($this);
     }
 }
