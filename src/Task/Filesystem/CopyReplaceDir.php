@@ -189,19 +189,17 @@ class CopyReplaceDir extends BaseTask
     protected function copyFile($src, $dst)
     {
         $text = file_get_contents($src);
-        if ($this->regex) {
-            $text = preg_replace($this->regex, $this->to, $text, -1, $count);
-        } else {
-            $from = $this->from;
-            if (is_array($from)) {
-                foreach ($from as $key => $value) {
-                    $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
-                }
-            } else {
-                $from = $this->startDelimiter . $this->from . $this->endDelimiter;
+
+        $from = $this->from;
+        if (is_array($from)) {
+            foreach ($from as $key => $value) {
+                $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
             }
-            $text = str_replace($from, $this->to, $text, $count);
+        } else {
+            $from = $this->startDelimiter . $this->from . $this->endDelimiter;
         }
+        $text = str_replace($from, $this->to, $text, $count);
+
         $res = file_put_contents($dst, $text);
         if ($res === false) {
             throw new TaskException($this, "Cannot copy source file '" . $src . "' to '"  . $dst . "'");
