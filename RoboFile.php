@@ -56,7 +56,7 @@ class RoboFile extends \Robo\Tasks
     {
         $collection = $this->collectionBuilder();
         $collection->progressMessage('Generate documentation from source code.');
-        $files = Finder::create()->files()->name('*.php')->in('src/task');
+        $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
         foreach ($files as $file) {
             if ($file->getFileName() == 'loadTasks.php') {

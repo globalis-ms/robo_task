@@ -25,7 +25,7 @@ Copies one dir into another and replace variables
 
 ``` php
 <?php
-$this->taskCopyReplaceDir(['dist/config' => 'config']
+$this->taskCopyReplaceDir(['dist/config' => 'config'])
  ->from(array('##dbname##', '##dbhost##'))
  ->to(array('robo', 'localhost'))
  ->startDelimiter('##')

@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
  *
  * ``` php
  * <?php
- * $this->taskCopyReplaceDir(['dist/config' => 'config']
+ * $this->taskCopyReplaceDir(['dist/config' => 'config'])
  *  ->from(array('##dbname##', '##dbhost##'))
  *  ->to(array('robo', 'localhost'))
  *  ->startDelimiter('##')
