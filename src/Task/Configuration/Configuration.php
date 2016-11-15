@@ -208,19 +208,16 @@ class Configuration extends BaseTask
                 $option['default'] = $config[$key];
             }
             if (isset($option['choices'])) {
-                $value = null;
-                while (!in_array($value, $option['choices'])) {
-                    if (isset($option['default'])) {
-                        $value = $this->askDefault($option['question'] . ' (' . implode(',', $option['choices']) . ')', $option['default']);
-                    } else {
-                        $value = $this->ask($option['question'] . ' (' . implode(',', $option['choices']) . ')');
-                    }
+                if (isset($option['default'])) {
+                    $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
+                } else {
+                    $value = $this->io()->choice($option['question'], $option['choices']);
                 }
             } else {
                 if (isset($option['default'])) {
-                    $value = $this->askDefault($option['question'], $option['default']);
+                    $value = $this->io()->ask($option['question'], $option['default']);
                 } else {
-                    $value = $this->ask($option['question']);
+                    $value = $this->io()->ask($option['question']);
                 }
             }
             $config[$key] = $value;
