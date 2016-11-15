@@ -27,6 +27,11 @@ class Command
         return $process;
     }
 
+    public function pipe($command)
+    {
+        return new self($this->getCommand() . ' | ' .$command);
+    }
+
     public function executeWithoutException()
     {
         $process = $this->getProcess();
