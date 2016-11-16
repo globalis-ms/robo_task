@@ -1,7 +1,6 @@
 <?php
 namespace Globalis\Robo\Core;
 
-use Robo\Exception\TaskException;
 use Symfony\Component\Process\Process;
 
 class Command
@@ -17,7 +16,7 @@ class Command
 
     public function getCommand()
     {
-        return "{$this->command} {$this->arguments}";
+        return "{$this->command}{$this->arguments}";
     }
 
     public function getProcess()
@@ -44,11 +43,14 @@ class Command
         $process = $this->getProcess();
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new TaskException($this, $this->getErrorProcessMessage($process));
+            throw new \Exception($this->getErrorProcessMessage($process));
         }
         return $process;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function getErrorProcessMessage(Process $process)
     {
         $error = sprintf(

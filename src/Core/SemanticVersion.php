@@ -64,28 +64,6 @@ class SemanticVersion
     }
 
     /**
-     * @param string $format
-     *
-     * @return $this
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
-        return $this;
-    }
-
-    /**
-     * @param string $separator
-     *
-     * @return $this
-     */
-    public function setPrereleaseSeparator($separator)
-    {
-        $this->specialSeparator = $separator;
-        return $this;
-    }
-
-    /**
      * @param string $what
      *
      * @return SemanticVersion
@@ -122,10 +100,6 @@ class SemanticVersion
      */
     public function prerelease($tag = 'RC')
     {
-        if (!is_string($tag)) {
-            throw new \Exception($this, 'Bad argument, only strings allowed.');
-        }
-
         $number = 0;
         if (!empty($this->version['special'])) {
             list($current, $number) = explode('.', $this->version['special']);
