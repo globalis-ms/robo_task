@@ -7,8 +7,8 @@ trait loadTasks
      * @param $file
      * @return ReplacePlacehoders
      */
-    protected function taskReplacePlacehoders($file)
+    protected function taskReplacePlaceholders($file)
     {
-        return $this->task(ReplacePlacehoders::class, $file);
+        return $this->task(ReplacePlaceholders::class, $file);
     }
 }

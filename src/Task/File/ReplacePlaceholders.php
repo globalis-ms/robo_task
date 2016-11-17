@@ -9,7 +9,7 @@ use Robo\Task\BaseTask;
  *
  * ``` php
  * <?php
- * $this->taskReplacePlacehoders('VERSION')
+ * $this->taskReplacePlaceholders('VERSION')
  *  ->from('0.2.0')
  *  ->to('0.3.0')
  *  ->startDelimiter('##')
