@@ -48,9 +48,6 @@ class CleanWaste extends BaseDir
      */
     public function run()
     {
-        if (!$this->checkResources($this->dirs, 'dir')) {
-            return Result::error($this, 'Source directories are missing!');
-        }
         foreach ($this->dirs as $dir) {
             $this->cleanWaste($dir);
             $this->printTaskInfo("Cleaned {dir}", ['dir' => $dir]);
@@ -67,9 +64,6 @@ class CleanWaste extends BaseDir
         foreach ($iterator as $path) {
             if (!$path->isDir()) {
                 $file = (string)$path;
-                if (basename($file) === '.gitignore' || basename($file) === '.gitkeep') {
-                    continue;
-                }
                 if ($this->isWasteFile(basename($file))) {
                     $this->printTaskInfo("{file} removed", ['file' => (string)$path]);
                     $this->fs->remove($file);
