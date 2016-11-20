@@ -28,17 +28,12 @@ class ReplacePlaceholders extends BaseTask
     /**
      * @var string[]
      */
-    protected $from;
+    protected $from = [];
 
     /**
      * @var string[]
      */
-    protected $to;
-
-    /**
-     * @var string
-     */
-    protected $regex;
+    protected $to = [];
 
     /**
      * @var string
@@ -115,19 +110,15 @@ class ReplacePlaceholders extends BaseTask
             return false;
         }
         $text = file_get_contents($this->filename);
-        if ($this->regex) {
-            $text = preg_replace($this->regex, $this->to, $text, -1, $count);
-        } else {
-            $from = $this->from;
-            if (is_array($from)) {
-                foreach ($from as $key => $value) {
-                    $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
-                }
-            } else {
-                $from = $this->startDelimiter . $this->from . $this->endDelimiter;
+        $from = $this->from;
+        if (is_array($from)) {
+            foreach ($from as $key => $value) {
+                $from[$key] = $this->startDelimiter . $value . $this->endDelimiter;
             }
-            $text = str_replace($from, $this->to, $text, $count);
+        } else {
+            $from = $this->startDelimiter . $this->from . $this->endDelimiter;
         }
+        $text = str_replace($from, $this->to, $text, $count);
         if ($count > 0) {
             $res = file_put_contents($this->filename, $text);
             if ($res === false) {

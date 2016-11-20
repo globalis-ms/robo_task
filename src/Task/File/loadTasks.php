@@ -5,7 +5,7 @@ trait loadTasks
 {
     /**
      * @param $file
-     * @return ReplacePlacehoders
+     * @return ReplacePlaceholders
      */
     protected function taskReplacePlaceholders($file)
     {
