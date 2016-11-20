@@ -230,9 +230,9 @@ class Configuration extends BaseTask
 
     private function saveConfig(array $config, $filePath)
     {
-        $res = file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
-        if ($res === false) {
+        if (is_writable($filePath) === false) {
             throw new TaskException($this, "Cannot write in file '" . $filePath  ."'");
         }
+        $res = file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
     }
 }
