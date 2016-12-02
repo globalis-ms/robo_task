@@ -26,7 +26,14 @@ use Robo\Task\BaseTask;
  *  ->initLocal([
  *      'config_key' => [
  *          'question' => 'question ?',
- *          'empty' => false,
+ *          'empty' => true,
+ *      ],
+ *      'config_key_2' => [
+ *          'question' => 'question ?',
+ *          'formatter' => function ($value) {
+ *              $formatValue = trim($value);
+ *              return $formatValue;
+ *          },
  *      ]
  *  ]),
  *  ->localFilePath($localFilePath)
@@ -250,9 +257,15 @@ class Configuration extends BaseTask
                     $value = $this->io()->ask($option['question'], null, $option['empty']);
                 }
             }
-            if ($value === $this->emptyPattern) {
+
+            if ($option['empty'] && $value === $this->emptyPattern) {
                 $value = '';
             }
+
+            if (isset($option['formatter'])) {
+                $value = call_user_func($option['formatter'], $value);
+            }
+
             $config[$key] = $value;
         }
         if ($inProgress) {

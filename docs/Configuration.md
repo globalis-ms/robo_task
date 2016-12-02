@@ -20,7 +20,14 @@ $this->taskConfiguration()
  ->initLocal([
      'config_key' => [
          'question' => 'question ?',
-         'empty' => false,
+         'empty' => true,
+     ],
+     'config_key_2' => [
+         'question' => 'question ?',
+         'formatter' => function ($value) {
+             $formatValue = trim($value);
+             return $formatValue;
+         },
      ]
  ]),
  ->localFilePath($localFilePath)
