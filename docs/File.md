@@ -6,7 +6,7 @@ Performs search and replace inside a files.
 
 ``` php
 <?php
-$this->taskReplacePlacehoders('VERSION')
+$this->taskReplacePlaceholders('VERSION')
  ->from('0.2.0')
  ->to('0.3.0')
  ->startDelimiter('##')

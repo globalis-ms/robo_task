@@ -11,7 +11,7 @@ $this->taskConfiguration()
     'config_key' => [
        'question' => 'question ?',
        'default' => 'ddd',
-       'choices' => ['choice']
+       'choices' => ['choice'],
     ]
  ])
  ->initSettings([
@@ -20,11 +20,13 @@ $this->taskConfiguration()
  ->initLocal([
      'config_key' => [
          'question' => 'question ?',
+         'empty' => false,
      ]
  ]),
  ->localFilePath($localFilePath)
  ->configFilePath($configFilePath)
  ->force()
+ ->emptyPattern('empty')
  ->run();
 ?>
 ```
@@ -35,6 +37,7 @@ $this->taskConfiguration()
 * `localFilePath($filePath)`  Set local file path, Default User Home
 * `configFilePath($filePath)`  Set config file path, default Project Dir / .my_config
 * `force()`  Force question
+* `emptyPattern($emptyPattern)`  Empty pattern
 * `setInput($input)`  @inheritdoc
 * `setOutput($output)`  @inheritdoc
 

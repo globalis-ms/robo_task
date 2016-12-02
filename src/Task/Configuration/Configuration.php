@@ -17,7 +17,7 @@ use Robo\Task\BaseTask;
  *     'config_key' => [
  *        'question' => 'question ?',
  *        'default' => 'ddd',
- *        'choices' => ['choice']
+ *        'choices' => ['choice'],
  *     ]
  *  ])
  *  ->initSettings([
@@ -26,11 +26,13 @@ use Robo\Task\BaseTask;
  *  ->initLocal([
  *      'config_key' => [
  *          'question' => 'question ?',
+ *          'empty' => false,
  *      ]
  *  ]),
  *  ->localFilePath($localFilePath)
  *  ->configFilePath($configFilePath)
  *  ->force()
+ *  ->emptyPattern('empty')
  *  ->run();
  * ?>
  * ```
@@ -54,6 +56,8 @@ class Configuration extends BaseTask
     protected $localConfigDefinition = [];
 
     protected $force = false;
+
+    protected $emptyPattern = 'empty';
 
 
     public function __construct()
@@ -150,6 +154,18 @@ class Configuration extends BaseTask
     }
 
     /**
+     * Empty pattern
+     *
+     * @param string $emptyPattern
+     * @return $this
+     */
+    public function emptyPattern($emptyPattern)
+    {
+        $this->emptyPattern = $emptyPattern;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -207,6 +223,20 @@ class Configuration extends BaseTask
             if (isset($config[$key])) {
                 $option['default'] = $config[$key];
             }
+            if (isset($option['empty']) && $option['empty'] === true) {
+                if (isset($option['default']) && $option['default'] === '') {
+                    $option['default'] = $this->emptyPattern;
+                }
+                $option['question'] .= ', type "' . $this->emptyPattern . '" to set an empty value';
+                $option['empty'] = function ($string) {
+                    if ($string === null) {
+                        return $this->emptyPattern;
+                    }
+                    return $string;
+                };
+            } else {
+                $option['empty'] = null;
+            }
             if (isset($option['choices'])) {
                 if (isset($option['default'])) {
                     $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
@@ -215,10 +245,13 @@ class Configuration extends BaseTask
                 }
             } else {
                 if (isset($option['default'])) {
-                    $value = $this->io()->ask($option['question'], $option['default']);
+                    $value = $this->io()->ask($option['question'], $option['default'], $option['empty']);
                 } else {
-                    $value = $this->io()->ask($option['question']);
+                    $value = $this->io()->ask($option['question'], null, $option['empty']);
                 }
+            }
+            if ($value === $this->emptyPattern) {
+                $value = '';
             }
             $config[$key] = $value;
         }
