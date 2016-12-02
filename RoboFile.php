@@ -198,6 +198,8 @@ class RoboFile extends \Robo\Tasks
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
+            ->name('*.json')
+            ->name('LICENSE')
             ->name('*.exe') // for 1symfony/console/Resources/bin/hiddeninput.exe
             ->name('GeneratedWrapper.tmpl')
             ->path('src')
