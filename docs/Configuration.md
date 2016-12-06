@@ -45,6 +45,4 @@ $this->taskConfiguration()
 * `configFilePath($filePath)`  Set config file path, default Project Dir / .my_config
 * `force()`  Force question
 * `emptyPattern($emptyPattern)`  Empty pattern
-* `setInput($input)`  @inheritdoc
-* `setOutput($output)`  @inheritdoc
 

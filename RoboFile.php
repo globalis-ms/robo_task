@@ -108,6 +108,8 @@ class RoboFile extends \Robo\Tasks
                         'progressIndicatorSteps',
                         'setBuilder',
                         'getBuilder',
+                        'setInput',
+                        'setOutput',
                         'collectionBuilder',
                     ];
                     return !in_array($m->name, $undocumentedMethods) && $m->isPublic(); // methods are not documented

@@ -15,6 +15,10 @@ namespace Globalis\Robo\Task\Composer;
  *      ->dev()
  *      ->noDev()
  *      ->optimizeAutoloader()
+ *      ->noAutoloader()
+ *      ->noScript()
+ *      ->noSuggest()
+ *      ->noProgress()
  *      ->run();
  * ?>
  * ```
@@ -60,7 +64,7 @@ class Install extends Base
     }
 
     /**
-     *  Enables installation of require-dev packages (enabled by default, only present for BC).
+     * Enables installation of require-dev packages (enabled by default, only present for BC).
      *
      * @return $this
      */
@@ -71,7 +75,7 @@ class Install extends Base
     }
 
     /**
-     *  Disables installation of require-dev packages.
+     * Disables installation of require-dev packages.
      *
      * @return $this
      */
@@ -82,13 +86,57 @@ class Install extends Base
     }
 
     /**
-     *  Optimize autoloader during autoloader dump.
+     * Skips autoloader generation
      *
      * @return $this
      */
     public function optimizeAutoloader()
     {
         $this->option('--optimize-autoloader');
+        return $this;
+    }
+
+    /**
+     * Skips autoloader generation.
+     *
+     * @return $this
+     */
+    public function noAutoloader()
+    {
+        $this->option('--no-autoloader');
+        return $this;
+    }
+
+    /**
+     * Skips the execution of all scripts defined in composer.json file.
+     *
+     * @return $this
+     */
+    public function noScript()
+    {
+        $this->option('--no-script');
+        return $this;
+    }
+
+    /**
+     * Do not show package suggestions.
+     *
+     * @return $this
+     */
+    public function noSuggest()
+    {
+        $this->option('--no-suggest');
+        return $this;
+    }
+
+    /**
+     * Do not output download progress.
+     *
+     * @return $this
+     */
+    public function noProgress()
+    {
+        $this->option('--no-progres');
         return $this;
     }
 }

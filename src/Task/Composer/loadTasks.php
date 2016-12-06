@@ -4,11 +4,18 @@ namespace Globalis\Robo\Task\Composer;
 trait loadTasks
 {
     /**
-     * @param $dirs
-     * @return CopyReplaceDir
+     * @return Install
      */
     protected function taskComposerInstall()
     {
         return $this->task(Install::class);
+    }
+
+    /**
+     * @return Update
+     */
+    protected function taskComposerUpdate()
+    {
+        return $this->task(Update::class);
     }
 }

@@ -3,7 +3,6 @@
     "description": "Robo task common collection",
     "license": "MIT",
     "type": "robo-tasks",
-    "minimum-stability": "RC",
     "authors": [
         {
             "name": "Romain Gugert",

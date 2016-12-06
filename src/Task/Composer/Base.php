@@ -94,12 +94,30 @@ abstract class Base extends BaseTask
         return $this;
     }
 
-    protected function getInput() {
+    protected function getInput()
+    {
         return array_merge(['command' => $this->command], $this->options);
+    }
+
+    protected function getCommand()
+    {
+        $cmd = '';
+        foreach ($this->getInput() as $key => $value) {
+            if ($key === 'command') {
+                $cmd .= ' ' . $value;
+            } elseif (!empty($value)) {
+                $cmd .= ' ' . $key . '='.$value;
+            } else {
+                $cmd .= ' ' . $key;
+            }
+        }
+        return 'composer' . $cmd;
     }
 
     public function run()
     {
+        $this->printTaskInfo('Composer Packages: {command}', ['command' => $this->getCommand()]);
+
         if (function_exists('ini_set')) {
             $memoryInBytes = function ($value) {
                 $unit = strtolower(substr($value, -1, 1));
@@ -125,9 +143,14 @@ abstract class Base extends BaseTask
         }
 
         $input = new ArrayInput($this->getInput());
-        $application = new Application();
-        $application->setAutoExit(false);
-        $application->run($input);
+        try {
+            $application = new Application();
+            $application->setAutoExit(false);
+            $application->run($input);
+        } catch(Exception $e) {
+            return new Result($this, $e->getCode(), $e->getMessage());
+        }
+
         return Result::success($this, 'Composer ' . $this->command);
     }
 }
