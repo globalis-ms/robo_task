@@ -69,7 +69,7 @@ class Configuration extends BaseTask
 
     public function __construct()
     {
-        $this->localConfigFilePath = $this->getUserHome() .'/.robot_config';
+        $this->localConfigFilePath = $this->getUserHome() .'/.robo_config';
         $this->configFilePath = getcwd() . '/my.config';
     }
 
