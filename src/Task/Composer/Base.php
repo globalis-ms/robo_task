@@ -122,7 +122,7 @@ abstract class Base extends BaseTask
             $memoryInBytes = function ($value) {
                 $unit = strtolower(substr($value, -1, 1));
                 $value = (int) $value;
-                switch($unit) {
+                switch ($unit) {
                     case 'g':
                         $value *= 1024;
                         // no break (cumulative multiplier)
@@ -147,7 +147,7 @@ abstract class Base extends BaseTask
             $application = new Application();
             $application->setAutoExit(false);
             $application->run($input);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return new Result($this, $e->getCode(), $e->getMessage());
         }
 

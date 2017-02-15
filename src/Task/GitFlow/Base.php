@@ -1,13 +1,12 @@
 <?php
 namespace Globalis\Robo\Task\GitFlow;
 
+use Globalis\Robo\Core\GitCommand;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 
 abstract class Base extends BaseTask
 {
-    use Common;
-
     protected $pathToGit;
 
     protected $repository = 'origin';
@@ -21,6 +20,8 @@ abstract class Base extends BaseTask
     protected $fetchFlag = true;
 
     protected $name;
+
+    protected $gitCommand;
 
     public function __construct($name, $pathToGit = 'git')
     {
@@ -86,5 +87,19 @@ abstract class Base extends BaseTask
     {
         $this->fetchFlag = $fetchFlag;
         return $this;
+    }
+
+    public function getGit()
+    {
+        if ($this->gitCommand === null) {
+            $this->gitCommand = new GitCommand($this->pathToGit);
+        }
+
+        return $this->gitCommand;
+    }
+
+    public function __call($method, $parameters)
+    {
+        return $this->getGit()->$method(...$parameters);
     }
 }
