@@ -53,7 +53,6 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->from('test');
         $this->assertEquals('test', $this->getProtectedProperty($command, 'from'));
-
     }
 
     public function testToSetter()
@@ -61,7 +60,6 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->to('test');
         $this->assertEquals('test', $this->getProtectedProperty($command, 'to'));
-
     }
 
     public function testEndDelimiterSetter()
@@ -69,7 +67,6 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->endDelimiter('test');
         $this->assertEquals('test', $this->getProtectedProperty($command, 'endDelimiter'));
-
     }
 
     public function testStartDelimiterSetter()
@@ -82,7 +79,7 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider runProvider
      */
-    public function testRun($delimiterStart, $delimiterEnd, $from, $to,$contentStart, $contentEnd)
+    public function testRun($delimiterStart, $delimiterEnd, $from, $to, $contentStart, $contentEnd)
     {
         // Create tmp file
         $tmpFile = tempnam(sys_get_temp_dir(), 'TestReplacePlaceholers');
