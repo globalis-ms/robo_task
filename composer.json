@@ -7,6 +7,10 @@
         {
             "name": "Romain Gugert",
             "email": "romain.gugert@globalis-ms.com"
+        },
+        {
+            "name":"GLOBALIS media systems",
+            "homepage":"https://www.globalis-ms.com/"
         }
     ],
     "autoload": {
@@ -17,7 +21,7 @@
     "require": {
         "php": ">=5.5.0",
         "consolidation/robo": "~1",
-        "composer-plugin-api": "^1.1"
+        "composer/composer": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5",

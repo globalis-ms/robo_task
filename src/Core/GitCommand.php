@@ -102,8 +102,9 @@ class GitCommand
         if ($tagMessage) {
             $process->option('-m', $tagMessage);
         }
-        $process->arg($tagName)
-            ->execute();
+        return $process->arg($tagName)
+            ->execute()
+            ->isSuccessful();
     }
 
     public function createBranch($branchName, $baseBranch)
@@ -122,11 +123,8 @@ class GitCommand
             ->execute();
     }
 
-    public function deleteRemoteBranch($remote, $branch = null)
+    public function deleteRemoteBranch($remote, $branch)
     {
-        if ($branch === null) {
-            $remote = $this->remote;
-        }
         $this->getBaseCommand('push')
             ->arg($remote)
             ->arg(':refs/heads/' . $branch)
@@ -190,7 +188,7 @@ class GitCommand
             $branch = preg_replace('/^\*\s*/', '', $value);
             $branches[$key] = trim($branch);
         }
-        return $branches;
+        return array_filter($branches);
     }
 
     public function remoteBranchExists($remote, $branch)
@@ -205,11 +203,11 @@ class GitCommand
             ->execute();
         $branches = explode(PHP_EOL, $process->getOutput());
         foreach ($branches as $key => $value) {
-            //First delete * char
+            // First delete * char
             $branch = preg_replace('/^\*\s*/', '', $value);
             $branches[$key] = trim($branch);
         }
-        return $branches;
+        return array_filter($branches);
     }
 
     public function localBranchExists($branch)

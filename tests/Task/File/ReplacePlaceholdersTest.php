@@ -2,6 +2,7 @@
 
 namespace Globalis\Robo\Tests\Task\File;
 
+use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
@@ -82,7 +83,7 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
     public function testRun($delimiterStart, $delimiterEnd, $from, $to, $contentStart, $contentEnd)
     {
         // Create tmp file
-        $tmpFile = tempnam(sys_get_temp_dir(), 'TestReplacePlaceholers');
+        $tmpFile = tempnam(sys_get_temp_dir(), 'globalis-robo-tasks-tests-replace-placeholers');
         file_put_contents($tmpFile, $contentStart);
         $command = $this->taskReplacePlaceholders($tmpFile);
         $command->startDelimiter($delimiterStart)
@@ -91,6 +92,8 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
             ->to($to)
             ->run();
         $this->assertEquals($contentEnd, file_get_contents($tmpFile));
+        // Delete tmpFile
+        Util::rmDir($tmpFile);
     }
 
     public function runProvider()

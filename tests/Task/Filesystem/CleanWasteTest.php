@@ -2,6 +2,7 @@
 
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
+use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
@@ -77,11 +78,12 @@ class CleanWasteTest extends \PHPUnit_Framework_TestCase
     public function testRun()
     {
         // Create test data
-        $dataFolder = sys_get_temp_dir() . '/' . uniqid();
+        $dataFolder = sys_get_temp_dir() . "/globalis-robo-tasks-tests-clean-waste" . uniqid();
         mkdir($dataFolder);
         file_put_contents($dataFolder . '/._test', '');
         $command = $this->taskCleanWaste([$dataFolder])
             ->run();
         $this->assertNotContains('._test', scandir($dataFolder));
+        Util::rmDir($dataFolder);
     }
 }

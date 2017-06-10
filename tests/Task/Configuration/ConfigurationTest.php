@@ -2,7 +2,7 @@
 
 namespace Globalis\Robo\Tests\Task\Configuration;
 
-use League\Container\ContainerAwareInterface;
+use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
@@ -186,11 +186,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'foo' => 1,
             'bar' => 'foo',
         ];
-        $tmpFile = tempnam(sys_get_temp_dir(), 'TestReplacePlaceholers');
-
+        $tmpFile = tempnam(sys_get_temp_dir(), 'globalis-robo-tasks-tests-configuration');
         $this->invokeMethod($command, 'saveConfig', [$data, $tmpFile]);
         $test = include $tmpFile;
         $this->assertSame($data, $test);
+        Util::rmDir($tmpFile);
     }
 
     /**
