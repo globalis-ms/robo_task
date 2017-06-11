@@ -35,7 +35,8 @@ class GitCommandTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
+        Util::runProcess('git branch develop master', static::$localWorkDir);
+        Util::runProcess('git checkout develop', static::$localWorkDir);
     }
 
     public static function tearDownAfterClass()

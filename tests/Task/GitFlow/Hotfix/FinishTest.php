@@ -45,7 +45,8 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
+        Util::runProcess('git branch develop master', static::$localWorkDir);
+        Util::runProcess('git checkout develop', static::$localWorkDir);
         Util::runProcess('git push origin develop', static::$localWorkDir);
     }
 
@@ -73,7 +74,8 @@ class FinishTest extends \PHPUnit_Framework_TestCase
 
         $this->toLocalDir();
         // Create feature branch
-        Util::runProcess('git checkout -b hotfix_foo master');
+        Util::runProcess('git branch hotfix_foo master');
+        Util::runProcess('git checkout hotfix_foo');
         file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
         Util::runProcess('git add .');
         Util::runProcess('git commit -m "test_hotix_foo"');

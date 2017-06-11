@@ -46,7 +46,8 @@ class StartTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
+        Util::runProcess('git branch develop master', static::$localWorkDir);
+        Util::runProcess('git checkout develop', static::$localWorkDir);
         Util::runProcess('git push origin develop', static::$localWorkDir);
     }
 
@@ -89,7 +90,8 @@ class StartTest extends \PHPUnit_Framework_TestCase
     public function testRunFeatureBranchExists()
     {
         // Create feature branch
-        Util::runProcess('git checkout -b feature_foo develop');
+        Util::runProcess('git branch feature_foo develop');
+        Util::runProcess('git checkout feature_foo');
 
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branch 'feature_foo' already exists. Pick another name.");

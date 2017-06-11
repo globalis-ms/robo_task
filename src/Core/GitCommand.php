@@ -109,10 +109,13 @@ class GitCommand
 
     public function createBranch($branchName, $baseBranch)
     {
-        $this->getBaseCommand('checkout')
-            ->option('-b')
+        $this->getBaseCommand('branch')
             ->args([$branchName, $baseBranch])
             ->execute();
+        $this->getBaseCommand('checkout')
+            ->args([$branchName])
+            ->execute();
+
     }
 
     public function deleteLocalBranch($branch)
