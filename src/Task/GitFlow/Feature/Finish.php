@@ -84,7 +84,6 @@ class Finish extends BaseFinish
                 ."\n - git mergetool"
                 ."\n - git commit"
             );
-
         }
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
 
