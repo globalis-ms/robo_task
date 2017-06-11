@@ -3,6 +3,7 @@
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
 use Globalis\Robo\Tests\Util;
+use Globalis\Robo\Task\Filesystem\CleanWaste;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
@@ -47,9 +48,9 @@ class CleanWasteTest extends \PHPUnit_Framework_TestCase
         return $method->invokeArgs($object, $parameters);
     }
 
-    public function testwastePatterns()
+    public function testWastePatterns()
     {
-        $command = new \Globalis\Robo\Task\Filesystem\CleanWaste(['/tmp']);
+        $command = new CleanWaste(['/tmp']);
         $command->wastePatterns(['test']);
         $this->assertEquals(['test'], $this->getProtectedProperty($command, 'wastePatterns'));
     }
@@ -59,7 +60,7 @@ class CleanWasteTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsWasteFile($filename, $result)
     {
-        $command = new \Globalis\Robo\Task\Filesystem\CleanWaste(['/tmp']);
+        $command = new CleanWaste(['/tmp']);
         $this->assertSame($result, $this->invokeMethod($command, 'isWasteFile', [$filename]));
     }
 

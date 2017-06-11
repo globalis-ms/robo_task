@@ -131,7 +131,7 @@ class CopyReplaceDir extends BaseTask
      * @param array $exclude
      * @return $this
      */
-    public function exclude($exclude = [])
+    public function exclude(array $exclude = [])
     {
         $this->exclude = $exclude;
         return $this;
@@ -142,9 +142,6 @@ class CopyReplaceDir extends BaseTask
      */
     public function run()
     {
-        if (!$this->checkResources($this->dirs, 'dir')) {
-            return Result::error($this, 'Source directories are missing!');
-        }
         foreach ($this->dirs as $src => $dst) {
             $this->copyDir($src, $dst);
         }
@@ -171,7 +168,7 @@ class CopyReplaceDir extends BaseTask
         }
         while (false !== ($file = readdir($dir))) {
             if (in_array($file, $this->exclude)) {
-                 continue;
+                continue;
             }
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;
@@ -200,7 +197,7 @@ class CopyReplaceDir extends BaseTask
         }
         $text = str_replace($from, $this->to, $text, $count);
 
-        $res = file_put_contents($dst, $text);
+        $res = @file_put_contents($dst, $text);
         if ($res === false) {
             throw new TaskException($this, "Cannot copy source file '" . $src . "' to '"  . $dst . "'");
         }
