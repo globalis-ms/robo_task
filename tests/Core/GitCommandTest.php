@@ -26,6 +26,11 @@ class GitCommandTest extends \PHPUnit_Framework_TestCase
         // Initialise local
         static::$localWorkDir = static::$workDir . '/local';
         Util::runProcess('git clone ' . static::$remoteWorkDir . ' local', static::$workDir);
+
+        // Prepare git local config
+        Util::runProcess('git config user.email "you@example.com"', static::$localWorkDir);
+        Util::runProcess('git config user.name "Your Name"', static::$localWorkDir);
+
         file_put_contents(static::$localWorkDir . '/test', 'Test');
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);

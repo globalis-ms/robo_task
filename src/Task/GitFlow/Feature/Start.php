@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
 use Globalis\Robo\Task\GitFlow\Base;
+use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**
@@ -34,18 +35,15 @@ class Start extends Base
         $branch = $this->prefixBranch . $this->name;
 
         if ($this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s'  already exists. Pick another name.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' already exists. Pick another name.", $branch));
         }
 
         if (!$this->branchExists($this->developBranch)) {
-            $this->printTaskError("Branch '$this->developBranch' does not exist and is required.");
-            return false;
+            throw new TaskException($this, "Branch '$this->developBranch' does not exist and is required.");
         }
 
         if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged.", $this->developBranch, $this->repository . '/' . $this->developBranch));
         }
 
         $this->createBranch($branch, $this->developBranch);

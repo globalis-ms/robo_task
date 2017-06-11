@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;
+use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**
@@ -33,32 +34,23 @@ class Finish extends BaseFinish
         $branch = $this->prefixBranch . $this->name;
 
         if (!$this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
         }
 
         if ($this->fetchFlag) {
             $this->fetchAll();
         }
 
-        if (!$this->branchExists($branch)) {
-            $this->printTaskError("Branch '$branch' does not exist and is required.");
-            return false;
-        }
-
         if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
         }
 
         if (!$this->branchExists($this->developBranch)) {
-            $this->printTaskError("Branch '$branch' does not exist and is required.");
-            return false;
+            throw new TaskException($this, "Branch '$this->developBranch' does not exist and is required.");
         }
 
         if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
         }
 
         $optMerge = '--no-ff';
@@ -67,8 +59,7 @@ class Finish extends BaseFinish
             // Rebase develop in base
             $this->printTaskInfo('Try to rebase {branch}', ['branch' => $branch]);
             if (!$this->isCleanWorkingTree()) {
-                $this->printTaskError("Working tree contains unstaged changes. Aborting.");
-                return false;
+                throw new TaskException($this, "Working tree contains unstaged changes. Aborting.");
             }
             $this->checkout($branch);
             if (!$this->rebase($this->developBranch)) {

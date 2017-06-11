@@ -1,9 +1,7 @@
 <?php
-
 namespace Globalis\Robo\Tests\Task\File;
 
 use Globalis\Robo\Tests\Util;
-use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
