@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;
+use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**
@@ -33,32 +34,23 @@ class Finish extends BaseFinish
         $branch = $this->prefixBranch . $this->name;
 
         if (!$this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
         }
 
         if ($this->fetchFlag) {
             $this->fetchAll();
         }
 
-        if (!$this->branchExists($branch)) {
-            $this->printTaskError("Branch '$branch' does not exist and is required.");
-            return false;
-        }
-
         if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
         }
 
         if (!$this->branchExists($this->developBranch)) {
-            $this->printTaskError("Branch '$branch' does not exist and is required.");
-            return false;
+            throw new TaskException($this, "Branch '$this->developBranch' does not exist and is required.");
         }
 
         if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
         }
 
         $optMerge = '--no-ff';
@@ -67,14 +59,15 @@ class Finish extends BaseFinish
             // Rebase develop in base
             $this->printTaskInfo('Try to rebase {branch}', ['branch' => $branch]);
             if (!$this->isCleanWorkingTree()) {
-                $this->printTaskError("Working tree contains unstaged changes. Aborting.");
-                return false;
+                throw new TaskException($this, "Working tree contains unstaged changes. Aborting.");
             }
             $this->checkout($branch);
             if (!$this->rebase($this->developBranch)) {
-                $this->printTaskWarning("Finish was aborted due to conflicts during rebase.");
-                $this->printTaskWarning("Please finish the rebase manually now.");
-                return false;
+                return Result::error(
+                    $this,
+                    "Finish was aborted due to conflicts during rebase."
+                    . "\nPlease finish the rebase manually now."
+                );
             }
         }
         // Merge into BASE
@@ -85,10 +78,12 @@ class Finish extends BaseFinish
             ->executeWithoutException();
 
         if (!$process->isSuccessful()) {
-            $this->printTaskWarning("There were merge conflicts. To resolve the merge conflict manually, use:");
-            $this->printTaskWarning(" - git mergetool");
-            $this->printTaskWarning(" - git commit");
-            return false;
+            return Result::error(
+                $this,
+                "There were merge conflicts. To resolve the merge conflict manually, use:"
+                ."\n - git mergetool"
+                ."\n - git commit"
+            );
         }
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
 
@@ -108,7 +103,6 @@ class Finish extends BaseFinish
         }
 
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
-
         return Result::success($this);
     }
 }

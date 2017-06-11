@@ -9,7 +9,6 @@ abstract class BaseFinish extends Base
 
     protected $pushFlag = true;
 
-
     /**
      * Set rebase flag, do a rebase if is true
      *

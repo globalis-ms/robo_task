@@ -136,7 +136,7 @@ class Install extends Base
      */
     public function noProgress()
     {
-        $this->option('--no-progres');
+        $this->option('--no-progress');
         return $this;
     }
 }

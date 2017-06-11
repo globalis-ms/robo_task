@@ -4,7 +4,7 @@ namespace Globalis\Robo\Tests\Core;
 
 use Globalis\Robo\Core\SemanticVersion;
 
-class SemanticVersionTest extends \PHPUnit_Framework_TestCase
+class SemanticVersionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers \Globalis\Robo\Core\SemanticVersion::__construct

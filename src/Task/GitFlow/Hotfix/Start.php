@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Task\GitFlow\Base;
+use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**
@@ -32,25 +33,21 @@ class Start extends Base
         }
 
         if ($this->tagExists($this->name)) {
-            $this->printTaskError(sprintf("Tag '%s' already exists. Pick another name.", $this->name));
-            return false;
+            throw new TaskException($this, sprintf("Tag '%s' already exists. Pick another name.", $this->name));
         }
 
         $branch = $this->prefixBranch . $this->name;
 
         if ($this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s'  already exists. Pick another name.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' already exists. Pick another name.", $branch));
         }
 
         if (!$this->branchExists($this->masterBranch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $this->masterBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->masterBranch));
         }
 
         if ($this->remoteBranchExists($this->repository, $this->masterBranch) && !$this->branchesEqual($this->masterBranch, $this->repository . '/' . $this->masterBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged.", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
         }
 
         $this->createBranch($branch, $this->masterBranch);
