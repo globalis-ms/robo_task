@@ -63,9 +63,11 @@ class Finish extends BaseFinish
             }
             $this->checkout($branch);
             if (!$this->rebase($this->developBranch)) {
-                $this->printTaskWarning("Finish was aborted due to conflicts during rebase.");
-                $this->printTaskWarning("Please finish the rebase manually now.");
-                return false;
+                return Result::error(
+                    $this,
+                    "Finish was aborted due to conflicts during rebase."
+                    . "\nPlease finish the rebase manually now."
+                );
             }
         }
         // Merge into BASE
@@ -76,10 +78,13 @@ class Finish extends BaseFinish
             ->executeWithoutException();
 
         if (!$process->isSuccessful()) {
-            $this->printTaskWarning("There were merge conflicts. To resolve the merge conflict manually, use:");
-            $this->printTaskWarning(" - git mergetool");
-            $this->printTaskWarning(" - git commit");
-            return false;
+            return Result::error(
+                $this,
+                "There were merge conflicts. To resolve the merge conflict manually, use:"
+                ."\n - git mergetool"
+                ."\n - git commit"
+            );
+
         }
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
 
@@ -99,7 +104,6 @@ class Finish extends BaseFinish
         }
 
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
-
         return Result::success($this);
     }
 }

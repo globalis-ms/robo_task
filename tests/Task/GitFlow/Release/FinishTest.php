@@ -1,5 +1,5 @@
 <?php
-namespace Globalis\Robo\Tests\Task\GitFlow\Feature;
+namespace Globalis\Robo\Tests\Task\GitFlow\Release;
 
 use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
@@ -25,7 +25,7 @@ class FinishTest extends \PHPUnit_Framework_TestCase
     {
         static::$baseCwd = getcwd();
         // Build tmp work dir
-        static::$workDir = sys_get_temp_dir() . "/globalis-robo-tasks-tests-git-flow-finish-feature" . uniqid();
+        static::$workDir = sys_get_temp_dir() . "/globalis-robo-tasks-tests-git-flow-finish-release" . uniqid();
         mkdir(static::$workDir);
 
         // Initialise remote
@@ -73,23 +73,27 @@ class FinishTest extends \PHPUnit_Framework_TestCase
 
         $this->toLocalDir();
         // Create feature branch
-        Util::runProcess('git checkout -b feature_foo develop');
+        Util::runProcess('git checkout -b release_foo develop');
         file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
         Util::runProcess('git add .');
-        Util::runProcess('git commit -m "test_feature_foo"');
-        Util::runProcess('git push origin feature_foo');
+        Util::runProcess('git commit -m "test_release_foo"');
+        Util::runProcess('git push origin release_foo');
     }
 
     public function tearDown()
     {
         // Delete feature branch
         $this->toRemoteDir();
-        Util::runProcess('git branch -D feature_foo');
+        Util::runProcess('git branch -D release_foo');
 
         $this->toLocalDir();
+        Util::runProcess('git checkout master');
+        Util::runProcess('git reset --hard origin/master');
         Util::runProcess('git checkout develop');
         Util::runProcess('git reset --hard origin/develop');
-        Util::runProcess('git branch -D feature_foo');
+        Util::runProcess('git branch -D release_foo');
+        Util::runProcess('git tag -d foo');
+        Util::runProcess('git push origin :refs/tags/foo');
     }
 
     // Scaffold the collection builder
@@ -99,23 +103,54 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    public function testRunFeatureBranchNotExist()
+    public function testRunReleaseBranchNotExist()
     {
         $this->expectException(\Robo\Exception\TaskException::class);
-        $this->expectExceptionMessage("Branch 'feature_bar' does not exist and is required.");
-        $this->taskFeatureFinish('bar')
+        $this->expectExceptionMessage("Branch 'release_bar' does not exist and is required.");
+        $this->taskReleaseFinish('bar')
             ->run();
     }
 
-    public function testRunFeatureBranchDiverge()
+    public function testRunTagExists()
+    {
+        Util::runProcess('git tag foo');
+        $this->expectException(\Robo\Exception\TaskException::class);
+        $this->expectExceptionMessage("Tag 'foo' already exists. Pick another name.");
+        $this->taskReleaseFinish('foo')
+            ->run();
+    }
+
+    public function testRunReleaseBranchDiverge()
     {
         file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
         Util::runProcess('git add .');
         Util::runProcess('git commit -m "test"');
 
         $this->expectException(\Robo\Exception\TaskException::class);
-        $this->expectExceptionMessage("Branches 'feature_foo' and 'origin/feature_foo' have diverged");
-        $this->taskFeatureFinish('foo')
+        $this->expectExceptionMessage("Branches 'release_foo' and 'origin/release_foo' have diverged");
+        $this->taskReleaseFinish('foo')
+            ->run();
+    }
+
+    public function testRunMasterBranchNotExist()
+    {
+        $this->expectException(\Robo\Exception\TaskException::class);
+        $this->expectExceptionMessage("Branch 'bar' does not exist and is required.");
+        $this->taskReleaseFinish('foo')
+            ->masterBranch('bar')
+            ->run();
+    }
+
+    public function testRunMasterBranchDiverge()
+    {
+        Util::runProcess('git checkout master');
+        file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
+        Util::runProcess('git add .');
+        Util::runProcess('git commit -m "test"');
+
+        $this->expectException(\Robo\Exception\TaskException::class);
+        $this->expectExceptionMessage("Branches 'master' and 'origin/master' have diverged");
+        $this->taskReleaseFinish('foo')
             ->run();
     }
 
@@ -123,7 +158,7 @@ class FinishTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branch 'bar' does not exist and is required.");
-        $this->taskFeatureFinish('foo')
+        $this->taskReleaseFinish('foo')
             ->developBranch('bar')
             ->run();
     }
@@ -137,17 +172,16 @@ class FinishTest extends \PHPUnit_Framework_TestCase
 
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branches 'develop' and 'origin/develop' have diverged");
-        $this->taskFeatureFinish('foo')
+        $this->taskReleaseFinish('foo')
             ->run();
     }
 
     public function testRunWithDeleteBranch()
     {
-        $this->taskFeatureFinish('foo')
+        $this->taskReleaseFinish('foo')
+            ->tagMessage('bar')
             ->run();
-        $r = trim(
-            Util::runProcess("git branch -a")->getOutput()
-        );
+        $r = trim(Util::runProcess("git branch -a")->getOutput());
         $this->assertSame(
             [
                 '* develop',
@@ -158,14 +192,30 @@ class FinishTest extends \PHPUnit_Framework_TestCase
             explode(
                 PHP_EOL,
                 $r
+            )
+        );
+        $r = trim(Util::runProcess("git tag -n --list foo")->getOutput());
+        $this->assertSame(
+            [
+                'foo',
+                'bar'
+            ],
+            array_values(
+                array_filter(
+                    explode(
+                        ' ',
+                        $r
+                    )
+                )
             )
         );
     }
 
     public function testRunWithoutDeleteBranch()
     {
-        $this->taskFeatureFinish('foo')
+        $this->taskReleaseFinish('foo')
             ->deleteBranchAfter(false)
+            ->noTag(true)
             ->run();
         $r = trim(
             Util::runProcess("git branch -a")->getOutput()
@@ -173,16 +223,22 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             [
                 '* develop',
-                '  feature_foo',
                 '  master',
+                '  release_foo',
                 '  remotes/origin/develop',
-                '  remotes/origin/feature_foo',
                 '  remotes/origin/master',
+                '  remotes/origin/release_foo',
             ],
             explode(
                 PHP_EOL,
                 $r
             )
+        );
+
+        $r = trim(Util::runProcess("git tag -n --list foo")->getOutput());
+        $this->assertSame(
+            '',
+            $r
         );
     }
 }

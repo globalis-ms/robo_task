@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Task\GitFlow\Release;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;
+use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**
@@ -64,13 +65,7 @@ class Finish extends BaseFinish
         $branch = $this->prefixBranch . $this->name;
 
         if ($this->tagExists($this->name)) {
-            $this->printTaskError(sprintf("Tag '%s' already exists. Pick another name.", $this->name));
-            return false;
-        }
-
-        if (!$this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Tag '%s' already exists. Pick another name.", $this->name));
         }
 
         if ($this->fetchFlag) {
@@ -78,33 +73,27 @@ class Finish extends BaseFinish
         }
 
         if (!$this->branchExists($branch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
         }
 
         if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
         }
 
         if (!$this->branchExists($this->masterBranch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $this->masterBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->masterBranch));
         }
 
         if ($this->remoteBranchExists($this->repository, $this->masterBranch) && !$this->branchesEqual($this->masterBranch, $this->repository . '/' . $this->masterBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
         }
 
         if (!$this->branchExists($this->developBranch)) {
-            $this->printTaskError(sprintf("Branch '%s' does not exist and is required.", $this->developBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->developBranch));
         }
 
         if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            $this->printTaskError(sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-            return false;
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
         }
 
         // merge into Master
@@ -116,10 +105,12 @@ class Finish extends BaseFinish
                 ->executeWithoutException();
 
             if (!$process->isSuccessful()) {
-                $this->printTaskWarning("There were merge conflicts. To resolve the merge conflict manually, use:");
-                $this->printTaskWarning(" - git mergetool");
-                $this->printTaskWarning(" - git commit");
-                return false;
+                return Result::error(
+                    $this,
+                    "There were merge conflicts. To resolve the merge conflict manually, use:"
+                    . "\n - git mergetool"
+                    . "\n - git commit"
+                );
             }
             $this->printTaskSuccess("The release branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->masterBranch]);
         }
@@ -140,10 +131,12 @@ class Finish extends BaseFinish
                 ->executeWithoutException();
 
             if (!$process->isSuccessful()) {
-                $this->printTaskWarning("There were merge conflicts. To resolve the merge conflict manually, use:");
-                $this->printTaskWarning(" - git mergetool");
-                $this->printTaskWarning(" - git commit");
-                return false;
+                return Result::error(
+                    $this,
+                    "There were merge conflicts. To resolve the merge conflict manually, use:"
+                    . "\n - git mergetool"
+                    . "\n - git commit"
+                );
             }
             $this->printTaskSuccess("The release branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);
         }
