@@ -1,6 +1,7 @@
 <?php
-
 namespace Globalis\Robo\Tests\Task\Composer;
+
+use Globalis\Robo\Tests\Util;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,46 +10,29 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return new BaseStub();
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
-    public function invokeMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
     public function testOption()
     {
         $command = $this->getBaseMock();
         $command->option('test');
         $options = ['test' => null];
-        $this->assertSame($options, $this->getProtectedProperty($command, 'options'));
+        $this->assertSame($options, Util::getProtectedProperty($command, 'options'));
 
         $options['test'] = 'test';
         $command->option('test', 'test');
-        $this->assertSame($options, $this->getProtectedProperty($command, 'options'));
+        $this->assertSame($options, Util::getProtectedProperty($command, 'options'));
 
 
         $options['foo'] = 'bar';
         $options['bar'] = null;
         $command->option('foo', 'bar');
         $command->option('bar');
-        $this->assertSame($options, $this->getProtectedProperty($command, 'options'));
+        $this->assertSame($options, Util::getProtectedProperty($command, 'options'));
     }
 
     public function testGetInput()
     {
         $command = $this->getBaseMock();
-        $this->assertSame(['command' => 'test'], $this->invokeMethod($command, 'getInput'));
+        $this->assertSame(['command' => 'test'], Util::invokeMethod($command, 'getInput'));
 
         $command->option('bar');
         $command->option('foo', 'bar');
@@ -60,21 +44,21 @@ class BaseTest extends \PHPUnit_Framework_TestCase
                 'foo' => 'bar',
                 '-q' => null
             ],
-            $this->invokeMethod($command, 'getInput')
+            Util::invokeMethod($command, 'getInput')
         );
     }
 
     public function getCommand()
     {
         $command = $this->getBaseMock();
-        $this->assertSame('composer test', $this->invokeMethod($command, 'getCommand'));
+        $this->assertSame('composer test', Util::invokeMethod($command, 'getCommand'));
 
         $command->option('bar');
         $command->option('foo', 'bar');
         $command->quiet();
         $this->assertSame(
             'composer test bar foo=bar -q',
-            $this->invokeMethod($command, 'getCommand')
+            Util::invokeMethod($command, 'getCommand')
         );
     }
     /**
@@ -85,9 +69,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $command = $this->getBaseMock();
         $command->{$function}(...$args);
         if (empty($args)) {
-            $this->assertSame([$result => null], $this->getProtectedProperty($command, 'options'));
+            $this->assertSame([$result => null], Util::getProtectedProperty($command, 'options'));
         } else {
-            $this->assertSame([$result => join($args)], $this->getProtectedProperty($command, 'options'));
+            $this->assertSame([$result => join($args)], Util::getProtectedProperty($command, 'options'));
         }
     }
 

@@ -40,7 +40,7 @@ class GitCommandTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        chdir(static::$baseCwd );
+        chdir(static::$baseCwd);
         Util::rmDir(static::$workDir);
     }
 

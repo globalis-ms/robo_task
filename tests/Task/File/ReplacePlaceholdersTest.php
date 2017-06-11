@@ -14,7 +14,6 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
     use TaskAccessor;
     use ContainerAwareTrait;
 
-
     // Set up the Robo container so that we can create tasks in our tests.
     public function setup()
     {
@@ -29,50 +28,42 @@ class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
     public function testDefaultTaskValues()
     {
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
-        $this->assertEquals('test.me', $this->getProtectedProperty($command, 'filename'));
-        $this->assertEquals('##', $this->getProtectedProperty($command, 'startDelimiter'));
-        $this->assertEquals('##', $this->getProtectedProperty($command, 'endDelimiter'));
-        $this->assertEquals([], $this->getProtectedProperty($command, 'from'));
-        $this->assertEquals([], $this->getProtectedProperty($command, 'to'));
+        $this->assertEquals('test.me', Util::getProtectedProperty($command, 'filename'));
+        $this->assertEquals('##', Util::getProtectedProperty($command, 'startDelimiter'));
+        $this->assertEquals('##', Util::getProtectedProperty($command, 'endDelimiter'));
+        $this->assertEquals([], Util::getProtectedProperty($command, 'from'));
+        $this->assertEquals([], Util::getProtectedProperty($command, 'to'));
     }
 
     public function testFromSetter()
     {
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->from('test');
-        $this->assertEquals('test', $this->getProtectedProperty($command, 'from'));
+        $this->assertEquals('test', Util::getProtectedProperty($command, 'from'));
     }
 
     public function testToSetter()
     {
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->to('test');
-        $this->assertEquals('test', $this->getProtectedProperty($command, 'to'));
+        $this->assertEquals('test', Util::getProtectedProperty($command, 'to'));
     }
 
     public function testEndDelimiterSetter()
     {
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->endDelimiter('test');
-        $this->assertEquals('test', $this->getProtectedProperty($command, 'endDelimiter'));
+        $this->assertEquals('test', Util::getProtectedProperty($command, 'endDelimiter'));
     }
 
     public function testStartDelimiterSetter()
     {
         $command = new \Globalis\Robo\Task\File\ReplacePlaceholders('test.me');
         $command->startDelimiter('test');
-        $this->assertEquals('test', $this->getProtectedProperty($command, 'startDelimiter'));
+        $this->assertEquals('test', Util::getProtectedProperty($command, 'startDelimiter'));
     }
 
     /**

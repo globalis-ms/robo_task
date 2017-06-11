@@ -1,5 +1,4 @@
 <?php
-
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
 use Globalis\Robo\Tests\Util;
@@ -31,28 +30,11 @@ class CleanWasteTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
-    public function invokeMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
     public function testWastePatterns()
     {
         $command = new CleanWaste(['/tmp']);
         $command->wastePatterns(['test']);
-        $this->assertEquals(['test'], $this->getProtectedProperty($command, 'wastePatterns'));
+        $this->assertEquals(['test'], Util::getProtectedProperty($command, 'wastePatterns'));
     }
 
     /**
@@ -61,7 +43,7 @@ class CleanWasteTest extends \PHPUnit_Framework_TestCase
     public function testIsWasteFile($filename, $result)
     {
         $command = new CleanWaste(['/tmp']);
-        $this->assertSame($result, $this->invokeMethod($command, 'isWasteFile', [$filename]));
+        $this->assertSame($result, Util::invokeMethod($command, 'isWasteFile', [$filename]));
     }
 
     public function baseWasteFile()

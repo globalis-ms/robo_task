@@ -1,26 +1,10 @@
 <?php
-
 namespace Globalis\Robo\Tests\Task\Composer;
+
+use Globalis\Robo\Tests\Util;
 
 class InstallTest extends \PHPUnit_Framework_TestCase
 {
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
-    public function invokeMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
     /**
      * @dataProvider options
      */
@@ -29,9 +13,9 @@ class InstallTest extends \PHPUnit_Framework_TestCase
         $command = new \Globalis\Robo\Task\Composer\Install();
         $command->{$function}(...$args);
         if (empty($args)) {
-            $this->assertSame([$result => null], $this->getProtectedProperty($command, 'options'));
+            $this->assertSame([$result => null], Util::getProtectedProperty($command, 'options'));
         } else {
-            $this->assertSame([$result => join($args)], $this->getProtectedProperty($command, 'options'));
+            $this->assertSame([$result => join($args)], Util::getProtectedProperty($command, 'options'));
         }
     }
 

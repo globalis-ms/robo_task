@@ -86,14 +86,6 @@ class StartTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
     public function testRunFeatureBranchExists()
     {
         // Create feature branch

@@ -1,6 +1,8 @@
 <?php
 namespace Globalis\Robo\Tests\Task\GitFlow;
 
+use Globalis\Robo\Tests\Util;
+
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     protected function getBaseMock()
@@ -8,71 +10,54 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return new BaseStub('test');
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
-    public function invokeMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
     public function testConstructor()
     {
         $task = new BaseStub('test');
-        $this->assertSame('test', $this->getProtectedProperty($task, 'name'));
-        $this->assertSame('git', $this->getProtectedProperty($task, 'pathToGit'));
-        $this->assertSame('origin', $this->getProtectedProperty($task, 'repository'));
-        $this->assertSame('develop', $this->getProtectedProperty($task, 'developBranch'));
-        $this->assertSame('master', $this->getProtectedProperty($task, 'masterBranch'));
-        $this->assertSame('', $this->getProtectedProperty($task, 'prefixBranch'));
-        $this->assertSame(true, $this->getProtectedProperty($task, 'fetchFlag'));
+        $this->assertSame('test', Util::getProtectedProperty($task, 'name'));
+        $this->assertSame('git', Util::getProtectedProperty($task, 'pathToGit'));
+        $this->assertSame('origin', Util::getProtectedProperty($task, 'repository'));
+        $this->assertSame('develop', Util::getProtectedProperty($task, 'developBranch'));
+        $this->assertSame('master', Util::getProtectedProperty($task, 'masterBranch'));
+        $this->assertSame('', Util::getProtectedProperty($task, 'prefixBranch'));
+        $this->assertSame(true, Util::getProtectedProperty($task, 'fetchFlag'));
 
         $task = new BaseStub('test', 'git_cmd');
-        $this->assertSame('git_cmd', $this->getProtectedProperty($task, 'pathToGit'));
+        $this->assertSame('git_cmd', Util::getProtectedProperty($task, 'pathToGit'));
     }
 
     public function testRepository()
     {
         $task = $this->getBaseMock();
         $this->assertSame($task, $task->repository('foo'));
-        $this->assertSame('foo', $this->getProtectedProperty($task, 'repository'));
+        $this->assertSame('foo', Util::getProtectedProperty($task, 'repository'));
     }
 
     public function testDevelopBranch()
     {
         $task = $this->getBaseMock();
         $this->assertSame($task, $task->developBranch('foo'));
-        $this->assertSame('foo', $this->getProtectedProperty($task, 'developBranch'));
+        $this->assertSame('foo', Util::getProtectedProperty($task, 'developBranch'));
     }
 
     public function testMasterBranch()
     {
         $task = $this->getBaseMock();
         $this->assertSame($task, $task->masterBranch('foo'));
-        $this->assertSame('foo', $this->getProtectedProperty($task, 'masterBranch'));
+        $this->assertSame('foo', Util::getProtectedProperty($task, 'masterBranch'));
     }
 
     public function testPrefixBranch()
     {
         $task = $this->getBaseMock();
         $this->assertSame($task, $task->prefixBranch('foo'));
-        $this->assertSame('foo', $this->getProtectedProperty($task, 'prefixBranch'));
+        $this->assertSame('foo', Util::getProtectedProperty($task, 'prefixBranch'));
     }
 
     public function testFetchFlag()
     {
         $task = $this->getBaseMock();
         $this->assertSame($task, $task->fetchFlag(false));
-        $this->assertSame(false, $this->getProtectedProperty($task, 'fetchFlag'));
+        $this->assertSame(false, Util::getProtectedProperty($task, 'fetchFlag'));
     }
 
     public function testGetGit()

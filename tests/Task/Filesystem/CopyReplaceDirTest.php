@@ -1,5 +1,4 @@
 <?php
-
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
 use Globalis\Robo\Tests\Util;
@@ -44,83 +43,66 @@ class CopyReplaceDirTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    protected function getProtectedProperty($object, $property)
-    {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
-
-    protected function invokeMethod($object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
     public function testConstructor()
     {
         $command = new CopyReplaceDir('/tmp');
-        $this->assertEquals(['/tmp'], $this->getProtectedProperty($command, 'dirs'));
+        $this->assertEquals(['/tmp'], Util::getProtectedProperty($command, 'dirs'));
         $command = new CopyReplaceDir(['/tmp', '/test']);
-        $this->assertEquals(['/tmp', '/test'], $this->getProtectedProperty($command, 'dirs'));
-        $this->assertEquals([], $this->getProtectedProperty($command, 'exclude'));
-        $this->assertEquals('#', $this->getProtectedProperty($command, 'startDelimiter'));
-        $this->assertEquals('#', $this->getProtectedProperty($command, 'endDelimiter'));
-        $this->assertEquals(0755, $this->getProtectedProperty($command, 'dirPermissions'));
-        $this->assertEquals(0644, $this->getProtectedProperty($command, 'filePermissions'));
+        $this->assertEquals(['/tmp', '/test'], Util::getProtectedProperty($command, 'dirs'));
+        $this->assertEquals([], Util::getProtectedProperty($command, 'exclude'));
+        $this->assertEquals('#', Util::getProtectedProperty($command, 'startDelimiter'));
+        $this->assertEquals('#', Util::getProtectedProperty($command, 'endDelimiter'));
+        $this->assertEquals(0755, Util::getProtectedProperty($command, 'dirPermissions'));
+        $this->assertEquals(0644, Util::getProtectedProperty($command, 'filePermissions'));
     }
 
     public function testFrom()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->from(['foo']);
-        $this->assertSame(['foo'], $this->getProtectedProperty($command, 'from'));
+        $this->assertSame(['foo'], Util::getProtectedProperty($command, 'from'));
     }
 
     public function testTo()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->to(['foo']);
-        $this->assertSame(['foo'], $this->getProtectedProperty($command, 'to'));
+        $this->assertSame(['foo'], Util::getProtectedProperty($command, 'to'));
     }
 
     public function testEndDelimiter()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->endDelimiter('foo');
-        $this->assertSame('foo', $this->getProtectedProperty($command, 'endDelimiter'));
+        $this->assertSame('foo', Util::getProtectedProperty($command, 'endDelimiter'));
     }
 
     public function testStartDelimiter()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->startDelimiter('foo');
-        $this->assertSame('foo', $this->getProtectedProperty($command, 'startDelimiter'));
+        $this->assertSame('foo', Util::getProtectedProperty($command, 'startDelimiter'));
     }
 
     public function testDirPermissions()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->dirPermissions(0555);
-        $this->assertSame(0555, $this->getProtectedProperty($command, 'dirPermissions'));
+        $this->assertSame(0555, Util::getProtectedProperty($command, 'dirPermissions'));
     }
 
     public function testFilePermissions()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->filePermissions(0555);
-        $this->assertSame(0555, $this->getProtectedProperty($command, 'filePermissions'));
+        $this->assertSame(0555, Util::getProtectedProperty($command, 'filePermissions'));
     }
 
     public function testExclude()
     {
         $command = new CopyReplaceDir('/tmp');
         $command->exclude(['/foo']);
-        $this->assertSame(['/foo'], $this->getProtectedProperty($command, 'exclude'));
+        $this->assertSame(['/foo'], Util::getProtectedProperty($command, 'exclude'));
     }
 
     public function testBaseWithoutReplaceRun()
