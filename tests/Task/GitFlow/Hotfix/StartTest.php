@@ -1,5 +1,5 @@
 <?php
-namespace Globalis\Robo\Tests\Task\GitFlow\Feature;
+namespace Globalis\Robo\Tests\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class FinishTest extends \PHPUnit_Framework_TestCase
+class StartTest extends \PHPUnit_Framework_TestCase
 {
 
     use \Globalis\Robo\Task\GitFlow\loadTasks;
@@ -25,8 +25,9 @@ class FinishTest extends \PHPUnit_Framework_TestCase
     {
         static::$baseCwd = getcwd();
         // Build tmp work dir
-        static::$workDir = sys_get_temp_dir() . "/globalis-robo-tasks-tests-git-flow-finish-feature" . uniqid();
+        static::$workDir = sys_get_temp_dir() . "/globalis-robo-tasks-tests-git-flow-start-hotfix" . uniqid();
         mkdir(static::$workDir);
+
 
         // Initialise remote
         static::$remoteWorkDir = static::$workDir . '/remote';
@@ -72,23 +73,11 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         $this->setContainer($container);
 
         $this->toLocalDir();
-        // Create feature branch
-        Util::runProcess('git checkout -b feature_foo develop');
-        file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
-        Util::runProcess('git add .');
-        Util::runProcess('git commit -m "test"');
-        Util::runProcess('git push origin feature_foo');
-    }
-
-    public function tearDown()
-    {
-        // Delete feature branch
-        $this->toRemoteDir();
-        Util::runProcess('git branch -D feature_foo');
-
-        $this->toLocalDir();
-        Util::runProcess('git checkout develop');
-        Util::runProcess('git branch -D feature_foo');
+        // Delete hotix branch
+        Util::runProcess('git checkout master');
+        Util::runProcess('git reset --hard origin/master');
+        Util::runProcess('git branch -D hotfix_foo');
+        Util::runProcess('git tag -d foo');
     }
 
     // Scaffold the collection builder
@@ -98,53 +87,60 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
-    protected function getProtectedProperty($object, $property)
+    public function testRunFeatureBranchExists()
     {
-        $reflection = new \ReflectionClass($object);
-        $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
-        return $reflection_property->getValue($object);
-    }
+        // Create feature branch
+        Util::runProcess('git checkout -b hotfix_foo master');
 
-    public function testRunFeatureBranchNotExist()
-    {
         $this->expectException(\Robo\Exception\TaskException::class);
-        $this->expectExceptionMessage("Branch 'feature_bar' does not exist and is required.");
-        $this->taskFeatureFinish('bar')
+        $this->expectExceptionMessage("Branch 'hotfix_foo' already exists. Pick another name.");
+        $this->taskHotfixStart('foo')
             ->run();
     }
 
-    public function testRunFeatureBranchDiverge()
-    {
-        file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
-        Util::runProcess('git add .');
-        Util::runProcess('git commit -m "test"');
-
-        $this->expectException(\Robo\Exception\TaskException::class);
-        $this->expectExceptionMessage("Branches 'feature_foo' and 'origin/feature_foo' have diverged");
-        $this->taskFeatureFinish('foo')
-            ->run();
-    }
-
-    public function testRunDevelopBranchNotExist()
+    public function testRunMasterBranchNotExist()
     {
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branch 'bar' does not exist and is required.");
-        $this->taskFeatureFinish('foo')
-            ->developBranch('bar')
+        $this->taskHotfixStart('foo')
+            ->masterBranch('bar')
             ->run();
     }
 
-    public function testRunDevelopBranchDiverge()
+    public function testRunTagExists()
     {
-        Util::runProcess('git checkout develop');
-        file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
-        Util::runProcess('git add .');
-        Util::runProcess('git commit -m "test"');
+        // Create release branch
+        Util::runProcess('git tag foo');
 
         $this->expectException(\Robo\Exception\TaskException::class);
-        $this->expectExceptionMessage("Branches 'develop' and 'origin/develop' have diverged");
-        $this->taskFeatureFinish('foo')
+        $this->expectExceptionMessage("Tag 'foo' already exists. Pick another name.");
+        $this->taskHotfixStart('foo')
             ->run();
+    }
+
+    public function testRunMasterBranchDiverge()
+    {
+        Util::runProcess('git checkout master');
+        file_put_contents(static::$localWorkDir . '/test', 'Test', FILE_APPEND);
+        Util::runProcess('git add .', static::$localWorkDir);
+        Util::runProcess('git commit -m "test"', static::$localWorkDir);
+
+        $this->expectException(\Robo\Exception\TaskException::class);
+        $this->expectExceptionMessage("Branches 'master' and 'origin/master' have diverged.");
+        $this->taskHotfixStart('foo')
+            ->run();
+    }
+
+    public function testRun()
+    {
+        $this->taskHotfixStart('foo')
+            ->run();
+        $this->assertEquals(
+            'hotfix_foo',
+            trim(Util::runProcess(
+                "git branch | grep \* | cut -d ' ' -f2",
+                static::$localWorkDir
+            )->getOutput())
+        );
     }
 }

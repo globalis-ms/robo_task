@@ -1,5 +1,5 @@
 <?php
-namespace Globalis\Robo\Tests\Task\GitFlow;
+namespace Globalis\Robo\Tests\Task\GitFlow\Feature;
 
 use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
@@ -138,9 +138,5 @@ class StartTest extends \PHPUnit_Framework_TestCase
                 static::$localWorkDir
             )->getOutput())
         );
-
-        // Delete feature branch
-        Util::runProcess('git checkout develop');
-        Util::runProcess('git branch -D feature_foo');
     }
 }
