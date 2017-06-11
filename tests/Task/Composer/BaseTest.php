@@ -3,7 +3,7 @@ namespace Globalis\Robo\Tests\Task\Composer;
 
 use Globalis\Robo\Tests\Util;
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit\Framework\TestCase
 {
     protected function getBaseMock()
     {

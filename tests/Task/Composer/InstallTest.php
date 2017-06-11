@@ -3,7 +3,7 @@ namespace Globalis\Robo\Tests\Task\Composer;
 
 use Globalis\Robo\Tests\Util;
 
-class InstallTest extends \PHPUnit_Framework_TestCase
+class InstallTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider options

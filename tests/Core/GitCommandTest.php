@@ -4,7 +4,7 @@ namespace Globalis\Robo\Tests\Core;
 use Globalis\Robo\Core\GitCommand;
 use Globalis\Robo\Tests\Util;
 
-class GitCommandTest extends \PHPUnit_Framework_TestCase
+class GitCommandTest extends \PHPUnit\Framework\TestCase
 {
     protected static $baseCwd;
     protected static $workDir;

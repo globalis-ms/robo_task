@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class CopyReplaceDirTest extends \PHPUnit_Framework_TestCase
+class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\Filesystem\loadTasks;

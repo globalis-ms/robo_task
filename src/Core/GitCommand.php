@@ -115,7 +115,6 @@ class GitCommand
         $this->getBaseCommand('checkout')
             ->args([$branchName])
             ->execute();
-
     }
 
     public function deleteLocalBranch($branch)

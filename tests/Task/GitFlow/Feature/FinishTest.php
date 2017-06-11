@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class FinishTest extends \PHPUnit_Framework_TestCase
+class FinishTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\GitFlow\loadTasks;
@@ -45,8 +45,7 @@ class FinishTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git branch develop master', static::$localWorkDir);
-        Util::runProcess('git checkout develop', static::$localWorkDir);
+        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
         Util::runProcess('git push origin develop', static::$localWorkDir);
     }
 
@@ -74,8 +73,7 @@ class FinishTest extends \PHPUnit_Framework_TestCase
 
         $this->toLocalDir();
         // Create feature branch
-        Util::runProcess('git branch feature_foo develop');
-        Util::runProcess('git checkout feature_foo');
+        Util::runProcess('git checkout -b feature_foo develop');
         file_put_contents(static::$localWorkDir . '/test', 'foo', FILE_APPEND);
         Util::runProcess('git add .');
         Util::runProcess('git commit -m "test_feature_foo"');
@@ -86,12 +84,12 @@ class FinishTest extends \PHPUnit_Framework_TestCase
     {
         // Delete feature branch
         $this->toRemoteDir();
-        Util::runProcess('git branch -D feature_foo');
+        Util::runProcessWithoutException('git branch -D feature_foo');
 
         $this->toLocalDir();
         Util::runProcess('git checkout develop');
         Util::runProcess('git reset --hard origin/develop');
-        Util::runProcess('git branch -D feature_foo');
+        Util::runProcessWithoutException('git branch -D feature_foo');
     }
 
     // Scaffold the collection builder

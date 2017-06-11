@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class StartTest extends \PHPUnit_Framework_TestCase
+class StartTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\GitFlow\loadTasks;
@@ -46,8 +46,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git branch develop master', static::$localWorkDir);
-        Util::runProcess('git checkout develop', static::$localWorkDir);
+        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
         Util::runProcess('git push origin develop', static::$localWorkDir);
     }
 
@@ -77,8 +76,8 @@ class StartTest extends \PHPUnit_Framework_TestCase
         // Delete hotix branch
         Util::runProcess('git checkout master');
         Util::runProcess('git reset --hard origin/master');
-        Util::runProcess('git branch -D hotfix_foo');
-        Util::runProcess('git tag -d foo');
+        Util::runProcessWithoutException('git branch -D hotfix_foo');
+        Util::runProcessWithoutException('git tag -d foo');
     }
 
     // Scaffold the collection builder
@@ -91,8 +90,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
     public function testRunFeatureBranchExists()
     {
         // Create feature branch
-        Util::runProcess('git branch hotfix_foo master');
-        Util::runProcess('git checkout hotfix_foo');
+        Util::runProcess('git checkout -b hotfix_foo master');
 
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branch 'hotfix_foo' already exists. Pick another name.");

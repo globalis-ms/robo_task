@@ -3,7 +3,7 @@ namespace Globalis\Robo\Tests\Task\GitFlow;
 
 use Globalis\Robo\Tests\Util;
 
-class BaseFinishTest extends \PHPUnit_Framework_TestCase
+class BaseFinishTest extends \PHPUnit\Framework\TestCase
 {
     protected function getBaseMock()
     {

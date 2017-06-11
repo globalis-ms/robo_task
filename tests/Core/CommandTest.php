@@ -3,7 +3,7 @@ namespace Globalis\Robo\Tests\Core;
 
 use Globalis\Robo\Core\Command;
 
-class CommandTest extends \PHPUnit_Framework_TestCase
+class CommandTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testGetCommand()

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class StartTest extends \PHPUnit_Framework_TestCase
+class StartTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\GitFlow\loadTasks;
@@ -45,8 +45,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
         Util::runProcess('git add .', static::$localWorkDir);
         Util::runProcess('git commit -m "test"', static::$localWorkDir);
         Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git branch develop master', static::$localWorkDir);
-        Util::runProcess('git checkout develop', static::$localWorkDir);
+        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
         Util::runProcess('git push origin develop', static::$localWorkDir);
     }
 
@@ -76,8 +75,8 @@ class StartTest extends \PHPUnit_Framework_TestCase
         // Delete release branch
         Util::runProcess('git checkout develop');
         Util::runProcess('git reset --hard origin/develop');
-        Util::runProcess('git branch -D release_foo');
-        Util::runProcess('git tag -d foo');
+        Util::runProcessWithoutException('git branch -D release_foo');
+        Util::runProcessWithoutException('git tag -d foo');
     }
 
     // Scaffold the collection builder
@@ -90,8 +89,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
     public function testRunReleaseBranchExists()
     {
         // Create release branch
-        Util::runProcess('git branch release_foo develop');
-        Util::runProcess('git checkout release_foo');
+        Util::runProcess('git checkout -b release_foo develop');
 
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branch 'release_foo' already exists. Pick another name.");

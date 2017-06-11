@@ -8,6 +8,31 @@ class Util
 
     public static function runProcess($cmd, $cwd = null)
     {
+        $process = static::runProcessWithoutException($cmd, $cwd);
+        if (!$process->isSuccessful()) {
+            $error = sprintf(
+                'The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
+                $process->getCommandLine(),
+                $process->getExitCode(),
+                $process->getExitCodeText(),
+                $process->getWorkingDirectory()
+            );
+            if (!$process->isOutputDisabled()) {
+                if ($process->getOutput()) {
+                    $error .= sprintf("\n\nOutput:\n================\n%s", $process->getOutput());
+                }
+
+                if ($process->getErrorOutput()) {
+                    $error .= sprintf("\n\nError Output:\n================\n%s", $process->getErrorOutput());
+                }
+            }
+            throw new \Exception($error);
+        }
+        return $process;
+    }
+
+    public static function runProcessWithoutException($cmd, $cwd = null)
+    {
         $process = new Process($cmd);
         $process->setWorkingDirectory($cwd);
         $process->run();

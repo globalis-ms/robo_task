@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class CleanWasteTest extends \PHPUnit_Framework_TestCase
+class CleanWasteTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\Filesystem\loadTasks;

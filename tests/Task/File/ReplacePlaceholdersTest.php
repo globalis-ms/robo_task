@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class ReplacePlaceholdersTest extends \PHPUnit_Framework_TestCase
+class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
 {
 
     use \Globalis\Robo\Task\File\loadTasks;
