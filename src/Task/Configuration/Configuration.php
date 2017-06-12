@@ -215,7 +215,7 @@ class Configuration extends BaseTask
     private function checkConfig(array $definition, array $config)
     {
         // Load config sample
-        foreach ($definition as $key => $value) {
+        foreach (array_keys($definition) as $key) {
             if (!isset($config[$key])) {
                 return false;
             }
@@ -283,6 +283,6 @@ class Configuration extends BaseTask
         ) {
             throw new TaskException($this, "Cannot write in file '" . $filePath  ."'");
         }
-        $res = file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
+        file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
     }
 }
