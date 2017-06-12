@@ -63,8 +63,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
     public function testGetGit()
     {
         $task = $this->getBaseMock();
-        $this->assertInstanceOf('Globalis\Robo\Core\GitCommand', $cmd = $task->getGit());
-        $this->assertSame($cmd, $task->getGit());
+        $this->assertInstanceOf('Globalis\Robo\Core\GitCommand', $cmd = Util::invokeMethod($task, 'getGit'));
+        $this->assertSame($cmd, Util::invokeMethod($task, 'getGit'));
     }
 
     public function testCallGitCommand()

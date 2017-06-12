@@ -33,25 +33,16 @@ class Finish extends BaseFinish
     {
         $branch = $this->prefixBranch . $this->name;
 
-        if (!$this->branchExists($branch)) {
-            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
-        }
+        $this->assertBranchExists($branch);
 
         if ($this->fetchFlag) {
             $this->fetchAll();
         }
 
-        if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
-        }
+        $this->assertRemoteBranchEquals($branch);
 
-        if (!$this->branchExists($this->developBranch)) {
-            throw new TaskException($this, "Branch '$this->developBranch' does not exist and is required.");
-        }
-
-        if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-        }
+        $this->assertBranchExists($this->developBranch);
+        $this->assertRemoteBranchEquals($this->developBranch);
 
         $optMerge = '--no-ff';
         if ($this->rebaseFlag) {

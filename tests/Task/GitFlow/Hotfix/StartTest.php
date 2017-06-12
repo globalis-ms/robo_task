@@ -2,6 +2,7 @@
 namespace Globalis\Robo\Tests\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Tests\Util;
+use Globalis\Robo\Tests\GitWorkDir;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
@@ -14,57 +15,7 @@ class StartTest extends \PHPUnit\Framework\TestCase
     use TaskAccessor;
     use ContainerAwareTrait;
 
-    protected static $baseCwd;
-    protected static $workDir;
-    protected static $gitEmail;
-    protected static $gitName;
-    protected static $localWorkDir;
-    protected static $remoteWorkDir;
-
-    public static function setUpBeforeClass()
-    {
-        static::$baseCwd = getcwd();
-        // Build tmp work dir
-        static::$workDir = sys_get_temp_dir() . "/globalis-robo-tasks-tests-git-flow-start-hotfix" . uniqid();
-        mkdir(static::$workDir);
-
-
-        // Initialise remote
-        static::$remoteWorkDir = static::$workDir . '/remote';
-        mkdir(static::$remoteWorkDir);
-        Util::runProcess('git init --bare', static::$remoteWorkDir);
-
-        // Initialise local
-        static::$localWorkDir = static::$workDir . '/local';
-        Util::runProcess('git clone ' . static::$remoteWorkDir . ' local', static::$workDir);
-
-        // Prepare git local config
-        Util::runProcess('git config user.email "you@example.com"', static::$localWorkDir);
-        Util::runProcess('git config user.name "Your Name"', static::$localWorkDir);
-
-        file_put_contents(static::$localWorkDir . '/test', 'Test');
-        Util::runProcess('git add .', static::$localWorkDir);
-        Util::runProcess('git commit -m "test"', static::$localWorkDir);
-        Util::runProcess('git push origin master', static::$localWorkDir);
-        Util::runProcess('git checkout -b develop master', static::$localWorkDir);
-        Util::runProcess('git push origin develop', static::$localWorkDir);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        chdir(static::$baseCwd);
-        Util::rmDir(static::$workDir);
-    }
-
-    protected function toLocalDir()
-    {
-        chdir(static::$localWorkDir .'/');
-    }
-
-    protected function toRemoteDir()
-    {
-        chdir(static::$remoteWorkDir .'/');
-    }
+    protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
     public function setUp()
@@ -72,7 +23,8 @@ class StartTest extends \PHPUnit\Framework\TestCase
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
 
-        $this->toLocalDir();
+        $this->git = GitWorkDir::getOrNew('git-flow-hotfix-start');
+        $this->git->toLocalDir();
         // Delete hotix branch
         Util::runProcess('git checkout master');
         Util::runProcess('git reset --hard origin/master');
@@ -121,9 +73,9 @@ class StartTest extends \PHPUnit\Framework\TestCase
     public function testRunMasterBranchDiverge()
     {
         Util::runProcess('git checkout master');
-        file_put_contents(static::$localWorkDir . '/test', 'Test', FILE_APPEND);
-        Util::runProcess('git add .', static::$localWorkDir);
-        Util::runProcess('git commit -m "test"', static::$localWorkDir);
+        file_put_contents($this->git->localWorkDir() . '/test', 'Test', FILE_APPEND);
+        Util::runProcess('git add .', $this->git->localWorkDir());
+        Util::runProcess('git commit -m "test"', $this->git->localWorkDir());
 
         $this->expectException(\Robo\Exception\TaskException::class);
         $this->expectExceptionMessage("Branches 'master' and 'origin/master' have diverged.");
@@ -139,7 +91,7 @@ class StartTest extends \PHPUnit\Framework\TestCase
             'hotfix_foo',
             trim(Util::runProcess(
                 "git branch | grep \* | cut -d ' ' -f2",
-                static::$localWorkDir
+                $this->git->localWorkDir()
             )->getOutput())
         );
     }

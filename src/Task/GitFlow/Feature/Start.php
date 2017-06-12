@@ -34,17 +34,10 @@ class Start extends Base
 
         $branch = $this->prefixBranch . $this->name;
 
-        if ($this->branchExists($branch)) {
-            throw new TaskException($this, sprintf("Branch '%s' already exists. Pick another name.", $branch));
-        }
+        $this->assertBranchNotExists($branch);
 
-        if (!$this->branchExists($this->developBranch)) {
-            throw new TaskException($this, "Branch '$this->developBranch' does not exist and is required.");
-        }
-
-        if ($this->remoteBranchExists($this->repository, $this->developBranch) && !$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged.", $this->developBranch, $this->repository . '/' . $this->developBranch));
-        }
+        $this->assertBranchExists($this->developBranch);
+        $this->assertRemoteBranchEquals($this->developBranch);
 
         $this->createBranch($branch, $this->developBranch);
         $this->printTaskSuccess(sprintf("A new branch '%s' was created, based on '%s'", $branch, $this->developBranch));
