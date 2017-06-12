@@ -91,4 +91,3 @@ $this->taskComposerUpdate()
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
-

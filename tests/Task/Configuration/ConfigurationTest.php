@@ -94,6 +94,10 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $command = new \Globalis\Robo\Task\Configuration\Configuration();
         $command->force();
         $this->assertEquals(true, Util::getProtectedProperty($command, 'force'));
+        $command->force(false);
+        $this->assertEquals(false, Util::getProtectedProperty($command, 'force'));
+        $command->force(true);
+        $this->assertEquals(true, Util::getProtectedProperty($command, 'force'));
     }
 
     /**

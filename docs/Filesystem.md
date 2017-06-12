@@ -43,5 +43,4 @@ $this->taskCopyReplaceDir(['dist/config' => 'config'])
 * `startDelimiter($delimiter)`  Set start delimiter
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
 * `filePermissions($value)`  Sets the default file permissions for the destination if it doesn't exist
-* `exclude($exclude = null)`  List files to exclude.
-
+* `exclude(array $exclude = Array ( ) )`  List files to exclude.
