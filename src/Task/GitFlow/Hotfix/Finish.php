@@ -64,38 +64,20 @@ class Finish extends BaseFinish
     {
         $branch = $this->prefixBranch . $this->name;
 
-        if ($this->tagExists($this->name)) {
-            throw new TaskException($this, sprintf("Tag '%s' already exists. Pick another name.", $this->name));
-            return false;
-        }
+        $this->assertTagNotExists($this->name);
 
         if ($this->fetchFlag) {
             $this->fetchAll();
         }
 
-        if (!$this->branchExists($branch)) {
-            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
-        }
+        $this->assertBranchExists($branch);
+        $this->assertRemoteBranchEquals($branch);
 
-        if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $branch, $this->repository . '/' . $branch));
-        }
+        $this->assertRemoteBranchExists($this->masterBranch);
+        $this->assertRemoteBranchEquals($this->masterBranch);
 
-        if (!$this->remoteBranchExists($this->repository, $this->masterBranch)) {
-            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->repository . '/' . $this->masterBranch));
-        }
-
-        if (!$this->branchesEqual($this->masterBranch, $this->repository . '/' . $this->masterBranch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->masterBranch, $this->repository . '/' . $this->masterBranch));
-        }
-
-        if (!$this->remoteBranchExists($this->repository, $this->developBranch)) {
-            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->repository . '/' . $this->developBranch));
-        }
-
-        if (!$this->branchesEqual($this->developBranch, $this->repository . '/' . $this->developBranch)) {
-            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged", $this->developBranch, $this->repository . '/' . $this->developBranch));
-        }
+        $this->assertRemoteBranchExists($this->developBranch);
+        $this->assertRemoteBranchEquals($this->developBranch);
 
         $optMerge = '--no-ff';
         if ($this->rebaseFlag) {

@@ -64,7 +64,7 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase
         $dataFolder = sys_get_temp_dir() . "/globalis-robo-tasks-tests-clean-waste" . uniqid();
         mkdir($dataFolder);
         file_put_contents($dataFolder . '/._test', '');
-        $command = $this->taskCleanWaste([$dataFolder])
+        $this->taskCleanWaste([$dataFolder])
             ->run();
         $this->assertNotContains('._test', scandir($dataFolder));
         Util::rmDir($dataFolder);

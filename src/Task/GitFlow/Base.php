@@ -89,7 +89,42 @@ abstract class Base extends BaseTask
         return $this;
     }
 
-    public function getGit()
+    protected function assertBranchNotExists($branch)
+    {
+        if ($this->branchExists($branch)) {
+            throw new TaskException($this, sprintf("Branch '%s' already exists. Pick another name.", $branch));
+        }
+    }
+
+    protected function assertBranchExists($branch)
+    {
+        if (!$this->branchExists($branch)) {
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $branch));
+        }
+    }
+
+    protected function assertRemoteBranchExists($branch)
+    {
+        if (!$this->remoteBranchExists($this->repository, $branch)) {
+            throw new TaskException($this, sprintf("Branch '%s' does not exist and is required.", $this->repository . '/' . $branch));
+        }
+    }
+
+    protected function assertRemoteBranchEquals($branch)
+    {
+        if ($this->remoteBranchExists($this->repository, $branch) && !$this->branchesEqual($branch, $this->repository . '/' . $branch)) {
+            throw new TaskException($this, sprintf("Branches '%s' and '%s' have diverged.", $branch, $this->repository . '/' . $branch));
+        }
+    }
+
+    protected function assertTagNotExists($tag)
+    {
+        if ($this->tagExists($tag)) {
+            throw new TaskException($this, sprintf("Tag '%s' already exists. Pick another name.", $tag));
+        }
+    }
+
+    protected function getGit()
     {
         if ($this->gitCommand === null) {
             $this->gitCommand = new GitCommand($this->pathToGit);
