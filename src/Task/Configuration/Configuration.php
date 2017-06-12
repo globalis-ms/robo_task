@@ -152,11 +152,12 @@ class Configuration extends BaseTask
     /**
      * Force question
      *
+     * @param  bool $bool
      * @return $this
      */
-    public function force()
+    public function force($bool = true)
     {
-        $this->force = true;
+        $this->force = $bool;
         return $this;
     }
 
