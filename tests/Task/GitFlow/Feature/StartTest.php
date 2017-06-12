@@ -74,6 +74,7 @@ class StartTest extends \PHPUnit\Framework\TestCase
 
         $this->toLocalDir();
         // Delete feature branch
+        $process = Util::runProcess('git branch -a');
         Util::runProcess('git checkout develop');
         Util::runProcess('git reset --hard origin/develop');
         Util::runProcessWithoutException('git branch -D feature_foo');

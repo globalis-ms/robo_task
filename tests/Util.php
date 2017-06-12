@@ -34,6 +34,7 @@ class Util
     public static function runProcessWithoutException($cmd, $cwd = null)
     {
         $process = new Process($cmd);
+        $cwd = $cwd ?: getcwd();
         $process->setWorkingDirectory($cwd);
         $process->run();
         return $process;
