@@ -175,6 +175,21 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         Util::rmDir($tmpFile);
     }
 
+    public function testSaveConfigCreateFileIFNotExist()
+    {
+        $command = new \Globalis\Robo\Task\Configuration\Configuration();
+        $data = [
+            'test' => 'test',
+            'foo' => 1,
+            'bar' => 'foo',
+        ];
+        $tmpFolder = sys_get_temp_dir() . '/globalis-robo-tasks-tests-configuration' . uniqid();
+        mkdir($tmpFolder);
+        Util::invokeMethod($command, 'saveConfig', [$data, $tmpFolder . '/test']);
+        $test = include $tmpFolder . '/test';
+        $this->assertSame($data, $test);
+        Util::rmDir($tmpFolder);
+    }
     /**
      * @expectedException Robo\Exception\TaskException
      */
