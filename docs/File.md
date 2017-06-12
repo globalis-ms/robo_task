@@ -19,4 +19,3 @@ $this->taskReplacePlaceholders('VERSION')
 * `to($to)`  Set value(s) to be set as a replacement
 * `endDelimiter($delimiter)`  Set end delimiter
 * `startDelimiter($delimiter)`  Set start delimiter
-
