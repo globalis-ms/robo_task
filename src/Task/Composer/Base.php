@@ -1,12 +1,12 @@
 <?php
-
 namespace Globalis\Robo\Task\Composer;
 
 use Composer\Console\Application;
 use Composer\Factory;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Process\ProcessUtils;
 
 abstract class Base extends BaseTask
 {
@@ -104,7 +104,8 @@ abstract class Base extends BaseTask
      */
     public function arg($arg)
     {
-        return $this->arguments[] = ProcessUtils::escapeArgument($arg);
+        $this->arguments[] = ProcessUtils::escapeArgument($arg);
+        return  $this;
     }
 
     protected function getInput()
@@ -119,7 +120,11 @@ abstract class Base extends BaseTask
             if ($key === 'command') {
                 $cmd .= ' ' . $value;
             } elseif (!empty($value)) {
-                $cmd .= ' ' . $key . '='.$value;
+                if (is_int($key)) {
+                    $cmd .= ' ' . $value;
+                } else {
+                    $cmd .= ' ' . $key . '=' . $value;
+                }
             } else {
                 $cmd .= ' ' . $key;
             }
@@ -155,7 +160,7 @@ abstract class Base extends BaseTask
             unset($memoryInBytes, $memoryLimit);
         }
 
-        $input = new ArrayInput($this->getInput());
+        $input = new ArgvInput(explode(' ', $this->getCommand()));
         try {
             $application = new Application();
             $application->setAutoExit(false);

@@ -25,6 +25,6 @@ trait loadTasks
      */
     protected function taskComposer($action)
     {
-        return $this->task(Custom::class);
+        return $this->task(Custom::class, $action);
     }
 }

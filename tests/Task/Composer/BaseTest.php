@@ -48,18 +48,18 @@ class BaseTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function getCommand()
+    public function testGetCommand()
     {
         $command = $this->getBaseMock();
         $this->assertSame('composer test', Util::invokeMethod($command, 'getCommand'));
 
-        $command->option('bar');
-        $command->option('foo', 'bar');
-        $command->arg('foobar:1.2');
-        $command->arg('barfoo');
-        $command->quiet();
+        $command->option('bar')
+            ->option('foo', 'bar')
+            ->arg('foobar:1.2')
+            ->arg('barfoo')
+            ->quiet();
         $this->assertSame(
-            'composer test bar foo=bar -q foobar:1.2 barfoo',
+            "composer test bar foo=bar -q 'foobar:1.2' 'barfoo'",
             Util::invokeMethod($command, 'getCommand')
         );
     }
