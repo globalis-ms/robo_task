@@ -55,12 +55,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
         $command->option('bar');
         $command->option('foo', 'bar');
+        $command->arg('foobar:1.2');
+        $command->arg('barfoo');
         $command->quiet();
         $this->assertSame(
-            'composer test bar foo=bar -q',
+            'composer test bar foo=bar -q foobar:1.2 barfoo',
             Util::invokeMethod($command, 'getCommand')
         );
     }
+
     /**
      * @dataProvider options
      */
