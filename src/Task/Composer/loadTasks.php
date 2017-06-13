@@ -18,4 +18,13 @@ trait loadTasks
     {
         return $this->task(Update::class);
     }
+
+    /**
+     * @param string $action
+     * @return Custom
+     */
+    protected function taskComposer($action)
+    {
+        return $this->task(Custom::class);
+    }
 }

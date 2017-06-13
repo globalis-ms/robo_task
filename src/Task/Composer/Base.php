@@ -14,6 +14,8 @@ abstract class Base extends BaseTask
 
     protected $options = [];
 
+    protected $arguments = [];
+
     /**
      * Do not output any message
      *
@@ -94,9 +96,20 @@ abstract class Base extends BaseTask
         return $this;
     }
 
+    /**
+     * Pass argument to executable. Its value will be automatically escaped.
+     *
+     * @param string $arg
+     * @return $this
+     */
+    public function arg($arg)
+    {
+        return $this->arguments[] = ProcessUtils::escapeArgument($arg);
+    }
+
     protected function getInput()
     {
-        return array_merge(['command' => $this->command], $this->options);
+        return array_merge(['command' => $this->command], $this->options, $this->arguments);
     }
 
     protected function getCommand()

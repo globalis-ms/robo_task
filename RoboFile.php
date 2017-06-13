@@ -111,6 +111,13 @@ class RoboFile extends \Robo\Tasks
                         'setInput',
                         'setOutput',
                         'collectionBuilder',
+                        'setVerbosityThreshold',
+                        'verbosityThreshold',
+                        'setOutputAdapter',
+                        'outputAdapter',
+                        'hasOutputAdapter',
+                        'verbosityMeetsThreshold',
+                        'writeMessage',
                     ];
                     return !in_array($m->name, $undocumentedMethods) && $m->isPublic(); // methods are not documented
                 }

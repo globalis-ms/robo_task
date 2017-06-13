@@ -45,3 +45,4 @@ $this->taskConfiguration()
 * `configFilePath($filePath)`  Set config file path, default Project Dir / .my_config
 * `force($bool = true)`  Force question
 * `emptyPattern($emptyPattern)`  Empty pattern
+
