@@ -1,5 +1,29 @@
 # Composer Tasks
 
+## Custom
+
+
+Composer Custom
+
+``` php
+<?php
+$this->taskComposer('required')
+     ->option('--dev')
+     ->arg('globalis/robo-task:dev-master')
+     ->arg('vendor/package')
+     ->run();
+?>
+```
+
+* `quiet()`  Do not output any message
+* `noInteraction()`  Do not ask any interactive question
+* `profile()`  Display timing and memory usage information
+* `workingDir($workingDir)`  Use the given directory as working directory.
+* `ainsi()`  Force ANSI output
+* `noAinsi()`  Disable ANSI output
+* `option($option, $value = null)`  Pass custom option.
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+
 ## Install
 
 
@@ -40,6 +64,7 @@ $this->taskComposerInstall()
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 
 ## Update
 
@@ -91,3 +116,5 @@ $this->taskComposerUpdate()
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+

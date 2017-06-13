@@ -160,3 +160,4 @@ $this->taskReleaseStart('Version', 'GitPath')
 * `masterBranch($masterBranch)`  Set master branch name
 * `prefixBranch($prefixBranch)`  Set prefix branch
 * `fetchFlag($fetchFlag)`  Set fetch flag, fetch all if is true
+
