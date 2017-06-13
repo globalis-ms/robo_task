@@ -6,7 +6,6 @@ use Composer\Factory;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Process\ProcessUtils;
 
 abstract class Base extends BaseTask
 {
@@ -104,7 +103,7 @@ abstract class Base extends BaseTask
      */
     public function arg($arg)
     {
-        $this->arguments[] = ProcessUtils::escapeArgument($arg);
+        $this->arguments[] = $arg;
         return  $this;
     }
 

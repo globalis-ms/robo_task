@@ -59,7 +59,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
             ->arg('barfoo')
             ->quiet();
         $this->assertSame(
-            "composer test bar foo=bar -q 'foobar:1.2' 'barfoo'",
+            "composer test bar foo=bar -q foobar:1.2 barfoo",
             Util::invokeMethod($command, 'getCommand')
         );
     }
