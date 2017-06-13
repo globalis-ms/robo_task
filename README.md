@@ -1,5 +1,7 @@
 # Globalis Robo Tasks
 
+[![Build Status](https://travis-ci.org/globalis-ms/robo_task.svg?branch=master)](https://travis-ci.org/globalis-ms/robo_task)
+
 **[Robo](http://robo.li) tasks collection:**
 
 * [Composer tasks](docs/Composer.md)
