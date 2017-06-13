@@ -12,10 +12,10 @@
 
 ### Phar
 
-[Download robo.phar >](https://github.com/globalis-ms/robo_task/releases/download/1.0.1/robo.phar)
+[Download robo.phar >](https://github.com/globalis-ms/robo_task/releases/download/1.0.2/robo.phar)
 
 ```
-wget https://github.com/globalis-ms/robo_task/releases/download/1.0.1/robo.phar
+wget https://github.com/globalis-ms/robo_task/releases/download/1.0.2/robo.phar
 ```
 
 To install globally put `robo.phar` in `/usr/bin`.

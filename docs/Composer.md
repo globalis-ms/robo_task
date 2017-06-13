@@ -22,7 +22,7 @@ $this->taskComposer('required')
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `arg($arg)`  Pass argument to executable.
 
 ## Install
 
@@ -64,7 +64,7 @@ $this->taskComposerInstall()
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `arg($arg)`  Pass argument to executable.
 
 ## Update
 
@@ -116,5 +116,5 @@ $this->taskComposerUpdate()
 * `ainsi()`  Force ANSI output
 * `noAinsi()`  Disable ANSI output
 * `option($option, $value = null)`  Pass custom option.
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `arg($arg)`  Pass argument to executable.
 

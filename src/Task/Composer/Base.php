@@ -96,7 +96,7 @@ abstract class Base extends BaseTask
     }
 
     /**
-     * Pass argument to executable. Its value will be automatically escaped.
+     * Pass argument to executable.
      *
      * @param string $arg
      * @return $this
