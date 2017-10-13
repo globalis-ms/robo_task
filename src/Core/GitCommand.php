@@ -80,6 +80,9 @@ class GitCommand
             ->option('--no-ext-diff')
             ->option('--ignore-submodules')
             ->option('--quiet')
+            ->option('--ignore-all-space')
+            ->option('--ignore-blank-lines')
+            ->option('--ignore-space-at-eol')
             ->executeWithoutException();
         return $process->isSuccessful();
     }
