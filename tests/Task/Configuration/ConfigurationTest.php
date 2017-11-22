@@ -54,6 +54,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         // None
         $this->assertSame(null, Util::invokeMethod($command, 'getUserHome'));
     }
+
     public function testInitConfig()
     {
         $command = new \Globalis\Robo\Task\Configuration\Configuration();
