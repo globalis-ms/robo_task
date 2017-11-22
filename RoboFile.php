@@ -188,16 +188,16 @@ class RoboFile extends \Robo\Tasks
                 ->dir($roboBuildDir)
                 ->dev()
                 ->noUpdate()
-                ->printed(false)
+                ->printOutput(false)
                 ->args($devProjectsToRemove)
             ->taskExec($composerPath . ' require ')
                 ->dir($roboBuildDir)
                 ->option('--no-update')
-                ->printed(false)
+                ->printOutput(false)
                 ->args($depProjectsToAdd)
             ->taskComposerInstall($composerPath)
                 ->dir($roboBuildDir)
-                ->printed(false)
+                ->printOutput(false)
                 ->run();
         // Exit if the preparation step failed
         if (!$preparationResult->wasSuccessful()) {

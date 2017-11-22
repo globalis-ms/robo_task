@@ -28,8 +28,18 @@ $this->taskConfiguration()
              $formatValue = trim($value);
              return $formatValue;
          },
+     ],
+     'config_key_3' => [
+         'question' => 'question ?',
+         'if' => function (array $currentConfig) {
+             return $currentConfig['config_key_2'] === 'toto';
+          },
+         'formatter' => function ($value) {
+             $formatValue = trim($value);
+             return $formatValue;
+         },
      ]
- ]),
+ ])
  ->localFilePath($localFilePath)
  ->configFilePath($configFilePath)
  ->force()
@@ -45,4 +55,3 @@ $this->taskConfiguration()
 * `configFilePath($filePath)`  Set config file path, default Project Dir / .my_config
 * `force($bool = true)`  Force question
 * `emptyPattern($emptyPattern)`  Empty pattern
-

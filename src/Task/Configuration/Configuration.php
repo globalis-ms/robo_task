@@ -34,8 +34,18 @@ use Robo\Task\BaseTask;
  *              $formatValue = trim($value);
  *              return $formatValue;
  *          },
+ *      ],
+ *      'config_key_3' => [
+ *          'question' => 'question ?',
+ *          'if' => function (array $currentConfig) {
+ *              return $currentConfig['config_key_2'] === 'toto';
+ *           },
+ *          'formatter' => function ($value) {
+ *              $formatValue = trim($value);
+ *              return $formatValue;
+ *          },
  *      ]
- *  ]),
+ *  ])
  *  ->localFilePath($localFilePath)
  *  ->configFilePath($configFilePath)
  *  ->force()
@@ -231,6 +241,18 @@ class Configuration extends BaseTask
             if (isset($config[$key])) {
                 $option['default'] = $config[$key];
             }
+
+            if (isset($option['if'])) {
+                if (!is_callable($option['if'])) {
+                    throw new TaskException($this, '"if" option in "' . $key . '" is not callable.');
+                }
+
+                if (!call_user_func($option['if'], $config)) {
+                    $config[$key] = isset($option['default']) ? $option['default'] : '';
+                    continue;
+                }
+            }
+
             if (isset($option['empty']) && $option['empty'] === true) {
                 if (isset($option['default']) && $option['default'] === '') {
                     $option['default'] = $this->emptyPattern;
@@ -245,6 +267,7 @@ class Configuration extends BaseTask
             } else {
                 $option['empty'] = null;
             }
+
             if (isset($option['choices'])) {
                 if (isset($option['default'])) {
                     $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
