@@ -240,6 +240,8 @@ class Configuration extends BaseTask
         foreach ($definition as $key => $option) {
             if (isset($config[$key])) {
                 $option['default'] = $config[$key];
+            } elseif (!isset($option['default'])) {
+                $option['default'] = null;
             }
 
             if (isset($option['if'])) {
@@ -268,18 +270,12 @@ class Configuration extends BaseTask
                 $option['empty'] = null;
             }
 
-            if (isset($option['choices'])) {
-                if (isset($option['default'])) {
-                    $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
-                } else {
-                    $value = $this->io()->choice($option['question'], $option['choices']);
-                }
+            if (isset($option['password']) && $option['password'] === true) {
+                $value = $this->askHidden($option['question'], $option['default'], $option['empty']);
+            } elseif (isset($option['choices'])) {
+                $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
             } else {
-                if (isset($option['default'])) {
-                    $value = $this->io()->ask($option['question'], $option['default'], $option['empty']);
-                } else {
-                    $value = $this->io()->ask($option['question'], null, $option['empty']);
-                }
+                $value = $this->io()->ask($option['question'], $option['default'], $option['empty']);
             }
 
             if ($option['empty'] && $value === $this->emptyPattern) {
@@ -307,5 +303,26 @@ class Configuration extends BaseTask
             throw new TaskException($this, "Cannot write in file '" . $filePath  ."'");
         }
         file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
+    }
+
+    private function askHidden($question, $default = null, $validator = null)
+    {
+        if (isset($default) && $default !== $this->emptyPattern) {
+            $default_value = $default;
+            $default       = str_repeat('*', strlen($default));
+        }
+
+        $question = new \Symfony\Component\Console\Question\Question($question, $default);
+
+        $question->setHidden(true);
+        $question->setValidator($validator);
+
+        $value = $this->io()->askQuestion($question);
+
+        if (isset($default_value) && $value === $default) {
+            $value = $default_value;
+        }
+
+        return $value;
     }
 }
