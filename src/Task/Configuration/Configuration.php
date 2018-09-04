@@ -2,6 +2,7 @@
 
 namespace Globalis\Robo\Task\Configuration;
 
+use Symfony\Component\Console\Question\Question;
 use Robo\Exception\TaskException;
 use Robo\Result;
 use Robo\Robo;
@@ -44,7 +45,11 @@ use Robo\Task\BaseTask;
  *              $formatValue = trim($value);
  *              return $formatValue;
  *          },
- *      ]
+ *      ],
+ *      'config_key_4' => [
+ *          'question' => 'password ?',
+ *          'hidden' => true,
+ *      ],
  *  ])
  *  ->localFilePath($localFilePath)
  *  ->configFilePath($configFilePath)
@@ -238,10 +243,10 @@ class Configuration extends BaseTask
         $inProgress = $this->hideTaskProgress();
         $this->setOutput(Robo::service('output'));
         foreach ($definition as $key => $option) {
+            $option['default'] = isset($option['default']) ? $option['default'] : null;
+
             if (isset($config[$key])) {
                 $option['default'] = $config[$key];
-            } elseif (!isset($option['default'])) {
-                $option['default'] = null;
             }
 
             if (isset($option['if'])) {
@@ -270,7 +275,7 @@ class Configuration extends BaseTask
                 $option['empty'] = null;
             }
 
-            if (isset($option['password']) && $option['password'] === true) {
+            if (isset($option['hidden']) && $option['hidden'] === true) {
                 $value = $this->askHidden($option['question'], $option['default'], $option['empty']);
             } elseif (isset($option['choices'])) {
                 $value = $this->io()->choice($option['question'], $option['choices'], $option['default']);
@@ -309,11 +314,10 @@ class Configuration extends BaseTask
     {
         if (isset($default) && $default !== $this->emptyPattern) {
             $default_value = $default;
-            $default       = str_repeat('*', strlen($default));
+            $default       = str_repeat('*', mb_strlen($default));
         }
 
-        $question = new \Symfony\Component\Console\Question\Question($question, $default);
-
+        $question = new Question($question, $default);
         $question->setHidden(true);
         $question->setValidator($validator);
 
