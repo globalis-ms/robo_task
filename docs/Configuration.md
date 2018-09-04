@@ -38,7 +38,11 @@ $this->taskConfiguration()
              $formatValue = trim($value);
              return $formatValue;
          },
-     ]
+     ],
+     'config_key_4' => [
+         'question' => 'password ?',
+         'hidden' => true,
+     ],
  ])
  ->localFilePath($localFilePath)
  ->configFilePath($configFilePath)
