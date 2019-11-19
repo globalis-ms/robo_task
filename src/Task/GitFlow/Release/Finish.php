@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow\Release;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;
@@ -82,7 +83,7 @@ class Finish extends BaseFinish
         // merge into Master
         if (!$this->isBranchMergeInto($branch, $this->masterBranch)) {
             $this->checkout($this->masterBranch);
-            $process= $this->getBaseCommand('merge')
+            $process = $this->getBaseCommand('merge')
                 ->option('--no-ff')
                 ->arg($branch)
                 ->executeWithoutException();

@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\File;
 
 use Globalis\Robo\Tests\Util;
@@ -9,7 +10,6 @@ use Robo\Robo;
 
 class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Globalis\Robo\Task\File\loadTasks;
     use TaskAccessor;
     use ContainerAwareTrait;
@@ -24,7 +24,7 @@ class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
     // Scaffold the collection builder
     public function collectionBuilder()
     {
-        $emptyRobofile = new \Robo\Tasks;
+        $emptyRobofile = new \Robo\Tasks();
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 

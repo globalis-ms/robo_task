@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\GitFlow\Release;
 
 use Globalis\Robo\Tests\Util;
@@ -10,7 +11,6 @@ use Robo\Robo;
 
 class StartTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Globalis\Robo\Task\GitFlow\loadTasks;
     use TaskAccessor;
     use ContainerAwareTrait;
@@ -35,7 +35,7 @@ class StartTest extends \PHPUnit\Framework\TestCase
     // Scaffold the collection builder
     public function collectionBuilder()
     {
-        $emptyRobofile = new \Robo\Tasks;
+        $emptyRobofile = new \Robo\Tasks();
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 

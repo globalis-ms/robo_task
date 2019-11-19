@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
 use Globalis\Robo\Tests\Util;
@@ -11,7 +12,6 @@ use Robo\Robo;
 
 class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Globalis\Robo\Task\Filesystem\loadTasks;
     use TaskAccessor;
     use ContainerAwareTrait;
@@ -39,7 +39,7 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     // Scaffold the collection builder
     public function collectionBuilder()
     {
-        $emptyRobofile = new \Robo\Tasks;
+        $emptyRobofile = new \Robo\Tasks();
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 
@@ -238,12 +238,12 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
             $this->dataFolder . '/test',
             "foo:" . $separator . "token_foo" . $separator . $separator . "token_bar" . $separator . "\nbar:" . $separator . "token_bar" . $separator . $separator . "token_foo" . $separator
         );
-        mkdir($this->dataFolder .'/foo');
+        mkdir($this->dataFolder . '/foo');
         file_put_contents(
             $this->dataFolder . '/foo/test',
             "foo:" . $separator . "token_bar" . $separator
         );
-        mkdir($this->dataFolder .'/bar');
+        mkdir($this->dataFolder . '/bar');
         file_put_contents(
             $this->dataFolder . '/bar/test',
             "bar:" . $separator . "token_foo" . $separator

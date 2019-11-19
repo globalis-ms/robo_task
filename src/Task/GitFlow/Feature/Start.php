@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
 use Globalis\Robo\Task\GitFlow\Base;

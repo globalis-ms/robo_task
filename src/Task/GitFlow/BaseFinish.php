@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow;
 
 abstract class BaseFinish extends Base

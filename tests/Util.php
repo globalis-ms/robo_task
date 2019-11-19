@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests;
 
 use Symfony\Component\Process\Process;
@@ -11,7 +12,7 @@ class Util
         $process = static::runProcessWithoutException($cmd, $cwd);
         if (!$process->isSuccessful()) {
             $error = sprintf(
-                'The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
+                'The command "%s" failed.' . "\n\nExit Code: %s(%s)\n\nWorking directory: %s",
                 $process->getCommandLine(),
                 $process->getExitCode(),
                 $process->getExitCodeText(),

@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\Filesystem;
 
 use Globalis\Robo\Tests\Util;
@@ -11,7 +12,6 @@ use Robo\Robo;
 
 class CleanWasteTest extends \PHPUnit\Framework\TestCase
 {
-
     use \Globalis\Robo\Task\Filesystem\loadTasks;
     use TaskAccessor;
     use ContainerAwareTrait;
@@ -26,7 +26,7 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase
     // Scaffold the collection builder
     public function collectionBuilder()
     {
-        $emptyRobofile = new \Robo\Tasks;
+        $emptyRobofile = new \Robo\Tasks();
         return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
     }
 

@@ -304,7 +304,8 @@ class Configuration extends BaseTask
 
     private function saveConfig(array $config, $filePath)
     {
-        if (!is_writable($filePath)
+        if (
+            !is_writable($filePath)
             &&
             (!file_exists($filePath) && is_writable(dirname($filePath)) === false)
         ) {

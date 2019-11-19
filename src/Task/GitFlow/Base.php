@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow;
 
 use Globalis\Robo\Core\GitCommand;

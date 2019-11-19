@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests;
 
 use Symfony\Component\Process\Process;
@@ -73,7 +74,7 @@ class GitWorkDir
 
     public function toLocalDir()
     {
-        chdir($this->localWorkDir .'/');
+        chdir($this->localWorkDir . '/');
     }
 
     public function remoteWorkDir()
@@ -83,7 +84,7 @@ class GitWorkDir
 
     public function toRemoteDir()
     {
-        chdir($this->remoteWorkDir .'/');
+        chdir($this->remoteWorkDir . '/');
     }
 
     public function restoreCwd()

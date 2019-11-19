@@ -1,4 +1,5 @@
 <?php
+
 use Symfony\Component\Finder\Finder;
 use Robo\Result;
 use Robo\Collection\CollectionBuilder;
@@ -122,14 +123,14 @@ class RoboFile extends \Robo\Tasks
                 }
             )->processClassSignature(
                 function ($c) use ($ns) {
-                    $name = str_replace('Globalis\\Robo\\Task\\' . $ns .'\\', '', $c->name);
+                    $name = str_replace('Globalis\\Robo\\Task\\' . $ns . '\\', '', $c->name);
                     $name = join(explode('\\', $name));
                     return "## " . preg_replace('~Task$~', '', $name) . "\n";
                 }
             )->processClassDocBlock(
                 function (\ReflectionClass $c, $doc) {
                     $doc = preg_replace('~@method .*?(.*?)\)~', '* `$1)` ', $doc);
-                    $doc = str_replace('\\'.$c->name, '', $doc);
+                    $doc = str_replace('\\' . $c->name, '', $doc);
                     return $doc;
                 }
             )->processMethodSignature(

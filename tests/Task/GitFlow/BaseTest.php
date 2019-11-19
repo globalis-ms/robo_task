@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\GitFlow;
 
 use Globalis\Robo\Tests\Util;

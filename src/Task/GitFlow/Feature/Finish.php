@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow\Feature;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;
@@ -72,8 +73,8 @@ class Finish extends BaseFinish
             return Result::error(
                 $this,
                 "There were merge conflicts. To resolve the merge conflict manually, use:"
-                ."\n - git mergetool"
-                ."\n - git commit"
+                . "\n - git mergetool"
+                . "\n - git commit"
             );
         }
         $this->printTaskSuccess("The feature branch '{branch}' was merged into '{base}'", ['branch' => $branch, 'base' => $this->developBranch]);

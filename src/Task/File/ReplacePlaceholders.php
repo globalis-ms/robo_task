@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\File;
 
 use Robo\Result;

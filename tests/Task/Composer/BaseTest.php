@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Tests\Task\Composer;
 
 use Globalis\Robo\Tests\Util;

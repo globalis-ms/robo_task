@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Task\GitFlow\BaseFinish;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Core;
 
 use Symfony\Component\Process\Process;
@@ -28,7 +29,7 @@ class Command
 
     public function pipe($command)
     {
-        return new self($this->getCommand() . ' | ' .$command);
+        return new self($this->getCommand() . ' | ' . $command);
     }
 
     public function executeWithoutException()
@@ -54,7 +55,7 @@ class Command
     protected function getErrorProcessMessage(Process $process)
     {
         $error = sprintf(
-            'The command "%s" failed.'."\n\nExit Code: %s(%s)\n\nWorking directory: %s",
+            'The command "%s" failed.' . "\n\nExit Code: %s(%s)\n\nWorking directory: %s",
             $process->getCommandLine(),
             $process->getExitCode(),
             $process->getExitCodeText(),

@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Core;
 
 use Globalis\Robo\Core\Command;

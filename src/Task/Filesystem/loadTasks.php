@@ -1,4 +1,5 @@
 <?php
+
 namespace Globalis\Robo\Task\Filesystem;
 
 trait loadTasks
