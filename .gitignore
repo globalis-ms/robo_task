@@ -36,3 +36,6 @@ Thumbs.db
 
 # composer installed dependencies
 **/vendor/*
+
+# phpunit cache
+.phpunit.result.cache

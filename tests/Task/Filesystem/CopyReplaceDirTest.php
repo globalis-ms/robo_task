@@ -23,13 +23,13 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     protected $copyFolder;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    public function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->baseTestFolder) {
             Util::rmDir($this->baseTestFolder);

@@ -203,6 +203,6 @@ class CopyReplaceDir extends BaseTask
             throw new TaskException($this, "Cannot copy source file '" . $src . "' to '"  . $dst . "'");
         }
         chmod($dst, $this->filePermissions);
-        $this->printTaskInfo('Copied from {source} to {destination}. {count} items replaced.', ['source' => $src, 'destination' => $dst, 'count' => $count]);
+        $this->printTaskDebug('Copied from {source} to {destination}. {count} items replaced.', ['source' => $src, 'destination' => $dst, 'count' => $count]);
     }
 }

@@ -18,7 +18,7 @@ class StartTest extends \PHPUnit\Framework\TestCase
     protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    public function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);

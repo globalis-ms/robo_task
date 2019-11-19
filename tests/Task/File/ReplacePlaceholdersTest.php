@@ -15,7 +15,7 @@ class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    public function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
