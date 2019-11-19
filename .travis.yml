@@ -8,6 +8,7 @@ matrix:
     - php: 7.0
     - php: 7.1
     - php: 7.2
+    - php: 7.3
 
 sudo: false
 
@@ -23,4 +24,4 @@ install:
 
 script:
   - vendor/bin/phpunit --coverage-text
-  - vendor/bin/phpcs --standard=PSR2 --exclude=Squiz.Classes.ValidClassName -n src/
+  - vendor/bin/phpcs

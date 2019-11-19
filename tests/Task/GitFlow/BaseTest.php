@@ -86,11 +86,3 @@ class BaseTest extends \PHPUnit\Framework\TestCase
         $task->doSomething('foo');
     }
 }
-
-class BaseStub extends \Globalis\Robo\Task\GitFlow\Base
-{
-    public function run()
-    {
-        return true;
-    }
-}

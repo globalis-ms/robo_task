@@ -34,11 +34,3 @@ class BaseFinishTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(false, Util::getProtectedProperty($task, 'pushFlag'));
     }
 }
-
-class BaseFinishStub extends \Globalis\Robo\Task\GitFlow\BaseFinish
-{
-    public function run()
-    {
-        return true;
-    }
-}

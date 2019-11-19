@@ -90,12 +90,3 @@ class BaseTest extends \PHPUnit\Framework\TestCase
         ];
     }
 }
-
-
-class BaseStub extends \Globalis\Robo\Task\Composer\Base
-{
-    public function __construct()
-    {
-        $this->command = 'test';
-    }
-}

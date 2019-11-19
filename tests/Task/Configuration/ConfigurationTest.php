@@ -15,7 +15,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    public function setUp()
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
@@ -32,7 +32,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         $command = new \Globalis\Robo\Task\Configuration\Configuration();
         $this->assertEquals([], Util::getProtectedProperty($command, 'settings'));
-        $this->assertEquals([], Util::getProtectedProperty($command, 'config'));
+        $this->assertEquals([], Util::getProtectedProperty($command, 'configData'));
         $this->assertEquals([], Util::getProtectedProperty($command, 'localConfig'));
         $this->assertEquals([], Util::getProtectedProperty($command, 'configDefinition'));
         $this->assertEquals([], Util::getProtectedProperty($command, 'localConfigDefinition'));
@@ -195,11 +195,10 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($data, $test);
         Util::rmDir($tmpFolder);
     }
-    /**
-     * @expectedException Robo\Exception\TaskException
-     */
+
     public function testSaveConfigThrowTaskException()
     {
+        $this->expectException(\Robo\Exception\TaskException::class);
         $command = new \Globalis\Robo\Task\Configuration\Configuration();
         $data = [
             'test' => 'test',
