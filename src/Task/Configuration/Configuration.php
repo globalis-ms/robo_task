@@ -69,7 +69,7 @@ class Configuration extends BaseTask
 
     protected $settings = [];
 
-    protected $config = [];
+    protected $configData = [];
 
     protected $localConfig = [];
 
@@ -84,7 +84,7 @@ class Configuration extends BaseTask
 
     public function __construct()
     {
-        $this->localConfigFilePath = $this->getUserHome() .'/.robo_config';
+        $this->localConfigFilePath = $this->getUserHome() . '/.robo_config';
         $this->configFilePath = getcwd() . '/my.config';
     }
 
@@ -195,20 +195,19 @@ class Configuration extends BaseTask
     {
         $this->loadLocal();
         $this->loadConfig();
-        return Result::success($this, 'Config loaded', array_merge($this->localConfig, $this->config, $this->settings));
+        return Result::success($this, 'Config loaded', array_merge($this->localConfig, $this->configData, $this->settings));
     }
-
 
     protected function loadConfig()
     {
-        $this->config = [];
+        $this->configData = [];
         if (file_exists($this->configFilePath)) {
-            $this->config  = include $this->configFilePath;
+            $this->configData = include $this->configFilePath;
         }
 
-        if ($this->force || !$this->checkConfig($this->configDefinition, $this->config)) {
-            $this->config  = $this->askForConfig($this->configDefinition, $this->config);
-            $this->saveConfig($this->config, $this->configFilePath);
+        if ($this->force || !$this->checkConfig($this->configDefinition, $this->configData)) {
+            $this->configData  = $this->askForConfig($this->configDefinition, $this->configData);
+            $this->saveConfig($this->configData, $this->configFilePath);
         }
     }
 
@@ -243,6 +242,10 @@ class Configuration extends BaseTask
         $inProgress = $this->hideTaskProgress();
         $this->setOutput(Robo::service('output'));
         foreach ($definition as $key => $option) {
+            if (!$this->force && isset($config[$key])) {
+                continue;
+            }
+
             $option['default'] = isset($option['default']) ? $option['default'] : null;
 
             if (isset($config[$key])) {
@@ -305,7 +308,7 @@ class Configuration extends BaseTask
             &&
             (!file_exists($filePath) && is_writable(dirname($filePath)) === false)
         ) {
-            throw new TaskException($this, "Cannot write in file '" . $filePath  ."'");
+            throw new TaskException($this, "Cannot write in file '" . $filePath  . "'");
         }
         file_put_contents($filePath, '<?php return ' . var_export($config, true) . ';');
     }
