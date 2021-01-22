@@ -9,7 +9,7 @@ use Globalis\Robo\Task\GitFlow\Hotfix\Finish as HotfixFinish;
 use Globalis\Robo\Task\GitFlow\Release\Start as ReleaseStart;
 use Globalis\Robo\Task\GitFlow\Release\Finish as ReleaseFinish;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param $version

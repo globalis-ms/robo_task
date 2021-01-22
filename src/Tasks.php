@@ -13,43 +13,43 @@ class Tasks implements BuilderAwareInterface, IOAwareInterface, ContainerAwareIn
 
     // Tasks
     use \Robo\TaskAccessor;
-    use \Robo\Collection\loadTasks;
+    use \Robo\Collection\Tasks;
 
     // standard tasks
-    use \Robo\Task\Base\loadTasks;
-    use \Robo\Task\Development\loadTasks;
-    use \Robo\Task\Filesystem\loadTasks;
-    use \Robo\Task\File\loadTasks;
-    use \Robo\Task\Archive\loadTasks;
-    use \Robo\Task\Vcs\loadTasks;
+    use \Robo\Task\Base\Tasks;
+    use \Robo\Task\Development\Tasks;
+    use \Robo\Task\Filesystem\Tasks;
+    use \Robo\Task\File\Tasks;
+    use \Robo\Task\Archive\Tasks;
+    use \Robo\Task\Vcs\Tasks;
 
     // package managers
-    use \Robo\Task\Bower\loadTasks;
-    use \Robo\Task\Npm\loadTasks;
+    use \Robo\Task\Bower\Tasks;
+    use \Robo\Task\Npm\Tasks;
 
     // assets
-    use \Robo\Task\Assets\loadTasks;
+    use \Robo\Task\Assets\Tasks;
 
     // 3rd-party tools
-    use \Robo\Task\Remote\loadTasks;
-    use \Robo\Task\Testing\loadTasks;
-    use \Robo\Task\ApiGen\loadTasks;
-    use \Robo\Task\Docker\loadTasks;
+    use \Robo\Task\Remote\Tasks;
+    use \Robo\Task\Testing\Tasks;
+    use \Robo\Task\ApiGen\Tasks;
+    use \Robo\Task\Docker\Tasks;
 
     // task runners
-    use \Robo\Task\Gulp\loadTasks;
+    use \Robo\Task\Gulp\Tasks;
 
     // shortcuts
-    use \Robo\Task\Base\loadShortcuts;
-    use \Robo\Task\Filesystem\loadShortcuts;
-    use \Robo\Task\Vcs\loadShortcuts;
+    use \Robo\Task\Base\Shortcuts;
+    use \Robo\Task\Filesystem\Shortcuts;
+    use \Robo\Task\Vcs\Shortcuts;
 
     //globalis task
-    use \Globalis\Robo\Task\Composer\loadTasks;
-    use \Globalis\Robo\Task\Configuration\loadTasks;
-    use \Globalis\Robo\Task\File\loadTasks;
-    use \Globalis\Robo\Task\Filesystem\loadTasks;
-    use \Globalis\Robo\Task\GitFlow\loadTasks;
+    use \Globalis\Robo\Task\Composer\Tasks;
+    use \Globalis\Robo\Task\Configuration\Tasks;
+    use \Globalis\Robo\Task\File\Tasks;
+    use \Globalis\Robo\Task\Filesystem\Tasks;
+    use \Globalis\Robo\Task\GitFlow\Tasks;
 
     /**
      * @param bool $stopOnFail
