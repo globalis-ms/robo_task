@@ -21,7 +21,7 @@
 [Download robo.phar >](https://github.com/globalis-ms/robo_task/releases/download/1.1.0/robo.phar)
 
 ```
-wget https://github.com/globalis-ms/robo_task/releases/download/1.1.0/robo.phar
+wget https://github.com/globalis-ms/robo_task/releases/download/1.3.0/robo.phar
 ```
 
 To install globally put `robo.phar` in `/usr/bin`.

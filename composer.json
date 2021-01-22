@@ -24,8 +24,8 @@
         }
     },
     "require": {
-        "php": ">=5.6",
-        "consolidation/robo": "^1.0",
+        "php": ">=7.2",
+        "consolidation/robo": "^2.2",
         "composer/composer": "^1.4"
     },
     "require-dev": {

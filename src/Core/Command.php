@@ -22,7 +22,7 @@ class Command
 
     public function getProcess()
     {
-        $process = new Process($this->getCommand());
+        $process = Process::fromShellCommandline($this->getCommand());
         $process->setTimeout(null);
         return $process;
     }
