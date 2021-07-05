@@ -11,14 +11,14 @@ use Robo\Robo;
 
 class FinishTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\GitFlow\loadTasks;
+    use \Globalis\Robo\Task\GitFlow\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
@@ -33,7 +33,7 @@ class FinishTest extends \PHPUnit\Framework\TestCase
         Util::runProcess('git push origin feature_foo');
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         // Delete feature branch
         $this->git->toRemoteDir();

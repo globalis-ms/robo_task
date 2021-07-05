@@ -6,8 +6,6 @@ use Symfony\Component\Process\Process;
 
 class Command
 {
-    use \Robo\Common\CommandArguments;
-
     protected $command;
 
     public function __construct($command)
@@ -17,7 +15,7 @@ class Command
 
     public function getCommand()
     {
-        return "{$this->command}{$this->arguments}";
+        return [ $this->command ];
     }
 
     public function getProcess()
@@ -29,7 +27,7 @@ class Command
 
     public function pipe($command)
     {
-        return new self($this->getCommand() . ' | ' . $command);
+        return new self($this->getCommand()[0] . ' | ' . $command);
     }
 
     public function executeWithoutException()

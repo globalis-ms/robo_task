@@ -10,7 +10,7 @@ class GitCommandTest extends \PHPUnit\Framework\TestCase
 {
     protected $git;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->git = GitWorkDir::getOrNew('git-command');
         $this->git->toLocalDir();

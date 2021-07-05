@@ -11,14 +11,14 @@ use Robo\Robo;
 
 class StartTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\GitFlow\loadTasks;
+    use \Globalis\Robo\Task\GitFlow\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);

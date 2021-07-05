@@ -10,12 +10,12 @@ use Robo\Robo;
 
 class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\File\loadTasks;
+    use \Globalis\Robo\Task\File\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);

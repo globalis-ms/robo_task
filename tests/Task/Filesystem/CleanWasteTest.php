@@ -12,12 +12,12 @@ use Robo\Robo;
 
 class CleanWasteTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\Filesystem\loadTasks;
+    use \Globalis\Robo\Task\Configuration\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);

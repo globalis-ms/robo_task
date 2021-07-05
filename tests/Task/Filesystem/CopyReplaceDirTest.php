@@ -12,7 +12,7 @@ use Robo\Robo;
 
 class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\Filesystem\loadTasks;
+    use \Globalis\Robo\Task\Configuration\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
@@ -23,13 +23,13 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     protected $copyFolder;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         if ($this->baseTestFolder) {
             Util::rmDir($this->baseTestFolder);

@@ -21,50 +21,39 @@ class GitCommand
 
     public function push($remote, $branch)
     {
-        $this->getBaseCommand('push')
-            ->args([$remote, $branch])
+        $this->getBaseCommand('push ' . $remote . ' ' . $branch)
             ->execute();
     }
 
     public function pushTags($remote)
     {
-        $this->getBaseCommand('push')
-            ->option('--tags')
-            ->arg($remote)
+        $this->getBaseCommand('push --tags ' . $remote)
             ->execute();
     }
 
     public function rebase($distBranch)
     {
-        $process = $this->getBaseCommand('rebase')
-            ->option('-q')
-            ->args($distBranch)
+        $process = $this->getBaseCommand('rebase -q ' . $distBranch)
             ->executeWithoutException();
         return $process->isSuccessful();
     }
 
     public function fetchAll()
     {
-        $this->getBaseCommand('fetch')
-            ->option('-q')
-            ->option('--all')
+        $this->getBaseCommand('fetch -q --all')
             ->execute();
     }
 
     public function checkout($branchName)
     {
-        $process = $this->getBaseCommand('checkout')
-            ->option('-q')
-            ->arg($branchName)
+        $process = $this->getBaseCommand('checkout -q ' . $branchName)
             ->executeWithoutException();
         return $process->isSuccessful();
     }
 
     public function isBranchMergeInto($subject, $branch)
     {
-        $process = $this->getBaseCommand('branch')
-            ->option('--no-color')
-            ->option('--contains', $subject)
+        $process = $this->getBaseCommand('branch --no-color --contains ' . $subject)
             ->execute();
         $branches = explode(PHP_EOL, $process->getOutput());
         foreach ($branches as $key => $value) {
@@ -77,13 +66,7 @@ class GitCommand
 
     public function isCleanWorkingTree()
     {
-        $process = $this->getBaseCommand('diff')
-            ->option('--no-ext-diff')
-            ->option('--ignore-submodules')
-            ->option('--quiet')
-            ->option('--ignore-all-space')
-            ->option('--ignore-blank-lines')
-            ->option('--ignore-space-at-eol')
+        $process = $this->getBaseCommand('diff --no-ext-diff --ignore-submodules --quiet --ignore-all-space --ignore-blank-lines --ignore-space-at-eol')
             ->executeWithoutException();
         return $process->isSuccessful();
     }
@@ -102,49 +85,42 @@ class GitCommand
 
     public function createTag($tagName, $tagMessage = null)
     {
-        $process = $this->getBaseCommand('tag');
+        $stringCommand = 'tag';
         if ($tagMessage) {
-            $process->option('-m', $tagMessage);
+            $stringCommand .= '-m ' . $tagMessage;
         }
-        return $process->arg($tagName)
+        $stringCommand .= ' ' . $tagName;
+        return $this->getBaseCommand($stringCommand)
             ->execute()
             ->isSuccessful();
     }
 
     public function createBranch($branchName, $baseBranch)
     {
-        $this->getBaseCommand('branch')
-            ->args([$branchName, $baseBranch])
+        $this->getBaseCommand('branch ' . $branchName . ' ' . $baseBranch)
             ->execute();
-        $this->getBaseCommand('checkout')
-            ->args([$branchName])
+        $this->getBaseCommand('checkout ' . $branchName)
             ->execute();
     }
 
     public function deleteLocalBranch($branch)
     {
-        $this->getBaseCommand('branch')
-            ->option('-d')
-            ->arg($branch)
+        $this->getBaseCommand('branch -d ' . $branch)
             ->execute();
     }
 
     public function deleteRemoteBranch($remote, $branch)
     {
-        $this->getBaseCommand('push')
-            ->arg($remote)
-            ->arg(':refs/heads/' . $branch)
+        $this->getBaseCommand('push ' . $remote . ' :refs/heads/' . $branch)
             ->execute();
     }
 
     public function branchesEqual($branchIn, $branchOut)
     {
-        $process = $this->getBaseCommand('rev-parse')
-            ->arg($branchIn)
+        $process = $this->getBaseCommand('rev-parse ' . $branchIn)
             ->execute();
         $commit1 = trim($process->getOutput());
-        $process = $this->getBaseCommand('rev-parse')
-            ->arg($branchOut)
+        $process = $this->getBaseCommand('rev-parse ' . $branchOut)
             ->execute();
         $commit2 = trim($process->getOutput());
         return ($commit1 === $commit2);
@@ -184,9 +160,7 @@ class GitCommand
 
     public function getRemoteBranches()
     {
-        $process = $this->getBaseCommand('branch')
-            ->option('-r')
-            ->option('--no-color')
+        $process = $this->getBaseCommand('branch -r --no-color')
             ->execute();
         $branches = explode(PHP_EOL, $process->getOutput());
         foreach ($branches as $key => $value) {
@@ -204,8 +178,7 @@ class GitCommand
 
     public function getLocalBranches()
     {
-        $process = $this->getBaseCommand('branch')
-            ->option('--no-color')
+        $process = $this->getBaseCommand('branch --no-color')
             ->execute();
         $branches = explode(PHP_EOL, $process->getOutput());
         foreach ($branches as $key => $value) {

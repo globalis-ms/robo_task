@@ -10,12 +10,12 @@ use Robo\Robo;
 
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-    use \Globalis\Robo\Task\Configuration\loadTasks;
+    use \Globalis\Robo\Task\Configuration\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
