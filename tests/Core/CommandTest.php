@@ -53,11 +53,11 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
      * @covers \Globalis\Robo\Core\Command::execute
      */
     public function testExecuteThrowTaskException()
     {
+        $this->expectException(\Exception::class);
         $command = new Command('commanddoesnotexist');
         $command->execute();
     }

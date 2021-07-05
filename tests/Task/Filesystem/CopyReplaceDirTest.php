@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
+class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
     use \Globalis\Robo\Task\Filesystem\loadTasks;
     use TaskAccessor;
@@ -23,13 +23,13 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     protected $copyFolder;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         if ($this->baseTestFolder) {
             Util::rmDir($this->baseTestFolder);
@@ -40,8 +40,10 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $this->getContainer()->extend('collectionBuilder')->addArgument($emptyRobofile);
+        return $this->getContainer()->get('collectionBuilder', true);
     }
+
 
     public function testConstructor()
     {

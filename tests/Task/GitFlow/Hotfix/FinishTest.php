@@ -4,12 +4,13 @@ namespace Globalis\Robo\Tests\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Tests\Util;
 use Globalis\Robo\Tests\GitWorkDir;
+use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class FinishTest extends \PHPUnit\Framework\TestCase
+class FinishTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
     use \Globalis\Robo\Task\GitFlow\loadTasks;
     use TaskAccessor;
@@ -18,7 +19,7 @@ class FinishTest extends \PHPUnit\Framework\TestCase
     protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    protected function setUp(): void
     {
         $container = Robo::createDefaultContainer(null, new NullOutput());
         $this->setContainer($container);
@@ -33,7 +34,7 @@ class FinishTest extends \PHPUnit\Framework\TestCase
         Util::runProcess('git push origin hotfix_foo');
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         // Delete feature branch
         $this->git->toRemoteDir();
@@ -53,8 +54,10 @@ class FinishTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $this->getContainer()->extend('collectionBuilder')->addArgument($emptyRobofile);
+        return $this->getContainer()->get('collectionBuilder', true);
     }
+
 
     public function testRunHotfixBranchNotExist()
     {

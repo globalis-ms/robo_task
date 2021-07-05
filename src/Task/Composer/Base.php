@@ -3,7 +3,6 @@
 namespace Globalis\Robo\Task\Composer;
 
 use Composer\Console\Application;
-use Composer\Factory;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Input\ArgvInput;
