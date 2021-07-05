@@ -47,6 +47,7 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements Containe
         return $container->get('collectionBuilder', true);
     }
 
+
     public function testConstructor()
     {
         $command = new CopyReplaceDir('/tmp');

@@ -28,8 +28,6 @@ class SemanticVersionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Bad semver.
      * @covers \Globalis\Robo\Core\SemanticVersion::__construct
      * @covers \Globalis\Robo\Core\SemanticVersion::parse
      */
@@ -64,10 +62,6 @@ class SemanticVersionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('3.0.0-test+meta', $semanticVersion->__toString());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Bad argument, only one of the following is allowed: major, minor, patch
-     */
     public function testIncrementThrowException()
     {
         $this->expectException(\Exception::class);

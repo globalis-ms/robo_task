@@ -3,7 +3,6 @@
 namespace Globalis\Robo\Task\GitFlow\Release;
 
 use Globalis\Robo\Task\GitFlow\Base;
-use Robo\Exception\TaskException;
 use Robo\Result;
 
 /**

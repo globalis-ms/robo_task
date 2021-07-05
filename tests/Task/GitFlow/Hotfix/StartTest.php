@@ -43,6 +43,7 @@ class StartTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInt
         return $container->get('collectionBuilder', true);
     }
 
+
     public function testRunFeatureBranchExists()
     {
         // Create feature branch

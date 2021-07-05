@@ -49,7 +49,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
      * @covers \Globalis\Robo\Core\Command::execute
      */
     public function testExecuteThrowTaskException()

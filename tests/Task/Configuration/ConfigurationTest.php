@@ -3,6 +3,7 @@
 namespace Globalis\Robo\Tests\Task\Configuration;
 
 use Globalis\Robo\Tests\Util;
+use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\ContainerAwareInterface;
 use Robo\TaskAccessor;

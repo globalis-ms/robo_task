@@ -56,6 +56,7 @@ class FinishTest extends \PHPUnit\Framework\TestCase implements ContainerAwareIn
         return $container->get('collectionBuilder', true);
     }
 
+
     public function testRunFeatureBranchNotExist()
     {
         $this->expectException(\Robo\Exception\TaskException::class);

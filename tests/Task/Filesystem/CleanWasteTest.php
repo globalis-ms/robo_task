@@ -33,6 +33,7 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase implements ContainerAwa
         return $container->get('collectionBuilder', true);
     }
 
+
     public function testWastePatterns()
     {
         $command = new CleanWaste(['/tmp']);
