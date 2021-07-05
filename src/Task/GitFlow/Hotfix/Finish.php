@@ -100,9 +100,7 @@ class Finish extends BaseFinish
         // merge into Master
         if (!$this->isBranchMergeInto($branch, $this->masterBranch)) {
             $this->checkout($this->masterBranch);
-            $process = $this->getBaseCommand('merge')
-                ->option($optMerge)
-                ->arg($branch)
+            $process = $this->getBaseCommand('merge ' . $optMerge . ' ' . $branch)
                 ->executeWithoutException();
 
             if (!$process->isSuccessful()) {
@@ -125,9 +123,7 @@ class Finish extends BaseFinish
         if (!$this->isBranchMergeInto($branch, $this->developBranch)) {
             // merge into Develop
             $this->checkout($this->developBranch);
-            $process = $this->getBaseCommand('merge')
-                ->option('--no-ff')
-                ->arg($branch)
+            $process = $this->getBaseCommand('merge --no-ff ' . $branch)
                 ->executeWithoutException();
 
             if (!$process->isSuccessful()) {

@@ -6,8 +6,6 @@ use Symfony\Component\Process\Process;
 
 class Command
 {
-    use \Robo\Common\CommandArguments;
-
     protected $command;
 
     public function __construct($command)
@@ -17,12 +15,12 @@ class Command
 
     public function getCommand()
     {
-        return "{$this->command}{$this->arguments}";
+        return $this->command;
     }
 
     public function getProcess()
     {
-        $process = new Process($this->getCommand());
+        $process = Process::fromShellCommandline($this->getCommand());
         $process->setTimeout(null);
         return $process;
     }

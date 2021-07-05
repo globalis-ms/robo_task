@@ -4,23 +4,24 @@ namespace Globalis\Robo\Tests\Task\GitFlow\Hotfix;
 
 use Globalis\Robo\Tests\Util;
 use Globalis\Robo\Tests\GitWorkDir;
+use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class StartTest extends \PHPUnit\Framework\TestCase
+class StartTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\GitFlow\loadTasks;
+    use \Globalis\Robo\Task\GitFlow\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     protected $git;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setUp()
+    protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
 
         $this->git = GitWorkDir::getOrNew('git-flow-hotfix-start');
@@ -36,7 +37,10 @@ class StartTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $container = $this->getContainer();
+        $collectionBuilderDefinition = $container->extend('collectionBuilder');
+        $collectionBuilderDefinition->addArgument($emptyRobofile);
+        return $container->get('collectionBuilder', true);
     }
 
     public function testRunFeatureBranchExists()

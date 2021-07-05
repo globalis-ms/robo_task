@@ -10,9 +10,9 @@ use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
+class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\Filesystem\loadTasks;
+    use \Globalis\Robo\Task\Filesystem\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
@@ -23,13 +23,14 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     protected $copyFolder;
 
     // Set up the Robo container so that we can create tasks in our tests.
-    public function setup()
+    protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         if ($this->baseTestFolder) {
             Util::rmDir($this->baseTestFolder);
@@ -40,7 +41,10 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $container = $this->getContainer();
+        $collectionBuilderDefinition = $container->extend('collectionBuilder');
+        $collectionBuilderDefinition->addArgument($emptyRobofile);
+        return $container->get('collectionBuilder', true);
     }
 
     public function testConstructor()
@@ -196,9 +200,9 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase
             ])
             ->exclude(['test'])
             ->run();
-        $this->assertFileNotExists($this->copyFolder . '/test');
-        $this->assertFileNotExists($this->copyFolder . '/foo/test');
-        $this->assertFileNotExists($this->copyFolder . '/bar/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/foo/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/bar/test');
     }
 
     public function testRunWithBadSourceDirectory()

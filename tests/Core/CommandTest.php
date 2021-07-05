@@ -12,13 +12,10 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $command = new Command('test');
         $this->assertSame('test', $command->getCommand());
 
-        $command = new Command('test');
-        $command->arg('test');
+        $command = new Command('test test');
         $this->assertSame('test test', $command->getCommand());
 
-        $command = new Command('test');
-        $command->arg('test');
-        $command->option('--test');
+        $command = new Command('test test --test');
         $this->assertSame('test test --test', $command->getCommand());
     }
 
@@ -45,8 +42,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
 
     public function testExecute()
     {
-        $command = new Command('php');
-        $command->option('-r', 'echo \'*\';');
+        $command = new Command('php -r \'echo "*";\'');
         $result = $command->execute();
         $this->assertInstanceOf('Symfony\\Component\\Process\\Process', $result);
         $this->assertSame('*', $result->getOutput());
@@ -58,14 +54,14 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testExecuteThrowTaskException()
     {
+        $this->expectException(\Exception::class);
         $command = new Command('commanddoesnotexist');
         $command->execute();
     }
 
     public function testExecuteWithoutException()
     {
-        $command = new Command('php');
-        $command->option('-r', 'echo \'*\';');
+        $command = new Command('php -r \'echo "*";\'');
         $result = $command->executeWithoutException();
         $this->assertInstanceOf('Symfony\\Component\\Process\\Process', $result);
         $this->assertSame('*', $result->getOutput());
