@@ -64,9 +64,7 @@ class Finish extends BaseFinish
         }
         // Merge into BASE
         $this->checkout($this->developBranch);
-        $process = $this->getBaseCommand('merge')
-            ->option($optMerge)
-            ->arg($branch)
+        $process = $this->getBaseCommand('merge ' . $optMerge . ' ' . $branch)
             ->executeWithoutException();
 
         if (!$process->isSuccessful()) {

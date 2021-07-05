@@ -4,10 +4,11 @@ namespace Globalis\Robo\Tests\Task\Configuration;
 
 use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
+use League\Container\ContainerAwareInterface;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class ConfigurationTest extends \PHPUnit\Framework\TestCase
+class ConfigurationTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
     use \Globalis\Robo\Task\Configuration\Tasks;
     use TaskAccessor;

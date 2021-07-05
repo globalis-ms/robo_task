@@ -4,11 +4,11 @@ namespace Globalis\Robo\Tests\Task\File;
 
 use Globalis\Robo\Tests\Util;
 use League\Container\ContainerAwareTrait;
-use Symfony\Component\Console\Output\NullOutput;
+use League\Container\ContainerAwareInterface;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
+class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
     use \Globalis\Robo\Task\File\Tasks;
     use TaskAccessor;
@@ -17,7 +17,8 @@ class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
     // Set up the Robo container so that we can create tasks in our tests.
     protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
     }
 
@@ -25,7 +26,11 @@ class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $container = $this->getContainer();
+        $collectionBuilderDefinition = $container->extend('collectionBuilder');
+        $collectionBuilderDefinition->addArgument($emptyRobofile);
+
+        return $container->get('collectionBuilder', true);
     }
 
     public function testDefaultTaskValues()

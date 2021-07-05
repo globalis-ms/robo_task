@@ -27,7 +27,7 @@ class Command
 
     public function pipe($command)
     {
-        return new self($this->getCommand()[0] . ' | ' . $command);
+        return new self($this->getCommand() . ' | ' . $command);
     }
 
     public function executeWithoutException()

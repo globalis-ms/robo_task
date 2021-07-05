@@ -6,20 +6,20 @@ use Globalis\Robo\Tests\Util;
 use Globalis\Robo\Task\Filesystem\CleanWaste;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
-class CleanWasteTest extends \PHPUnit\Framework\TestCase
+class CleanWasteTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\Configuration\Tasks;
+    use \Globalis\Robo\Task\Filesystem\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
     // Set up the Robo container so that we can create tasks in our tests.
     protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
     }
 
@@ -27,7 +27,10 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $container = $this->getContainer();
+        $collectionBuilderDefinition = $container->extend('collectionBuilder');
+        $collectionBuilderDefinition->addArgument($emptyRobofile);
+        return $container->get('collectionBuilder', true);
     }
 
     public function testWastePatterns()
