@@ -15,12 +15,12 @@ class Command
 
     public function getCommand()
     {
-        return [ $this->command ];
+        return $this->command;
     }
 
     public function getProcess()
     {
-        $process = new Process($this->getCommand());
+        $process = Process::fromShellCommandline($this->getCommand());
         $process->setTimeout(null);
         return $process;
     }

@@ -42,7 +42,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
 
     public function testExecute()
     {
-        $command = new Command('/usr/local/bin/php -r \'*\';');
+        $command = new Command('php -r \'echo "*";\'');
         $result = $command->execute();
         $this->assertInstanceOf('Symfony\\Component\\Process\\Process', $result);
         $this->assertSame('*', $result->getOutput());
@@ -54,13 +54,14 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testExecuteThrowTaskException()
     {
+        $this->expectException(\Exception::class);
         $command = new Command('commanddoesnotexist');
         $command->execute();
     }
 
     public function testExecuteWithoutException()
     {
-        $command = new Command('php -r \'*\';');
+        $command = new Command('php -r \'echo "*";\'');
         $result = $command->executeWithoutException();
         $this->assertInstanceOf('Symfony\\Component\\Process\\Process', $result);
         $this->assertSame('*', $result->getOutput());
