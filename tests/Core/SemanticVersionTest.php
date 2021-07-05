@@ -35,6 +35,7 @@ class SemanticVersionTest extends \PHPUnit\Framework\TestCase
      */
     public function testParseThrowException()
     {
+        $this->expectException(\Exception::class);
         new SemanticVersion('badversion');
     }
 
@@ -69,6 +70,7 @@ class SemanticVersionTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncrementThrowException()
     {
+        $this->expectException(\Exception::class);
         $semanticVersion = new SemanticVersion('1.0.0');
         $semanticVersion->increment('toto');
     }

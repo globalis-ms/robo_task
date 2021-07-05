@@ -87,7 +87,7 @@ class GitCommand
     {
         $stringCommand = 'tag';
         if ($tagMessage) {
-            $stringCommand .= '-m ' . $tagMessage;
+            $stringCommand .= ' -m ' . $tagMessage;
         }
         $stringCommand .= ' ' . $tagName;
         return $this->getBaseCommand($stringCommand)
