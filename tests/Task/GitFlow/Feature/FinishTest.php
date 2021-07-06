@@ -12,7 +12,7 @@ use Robo\Robo;
 
 class FinishTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\GitFlow\loadTasks;
+    use \Globalis\Robo\Task\GitFlow\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 

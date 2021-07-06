@@ -12,7 +12,7 @@ use Robo\Robo;
 
 class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\Filesystem\loadTasks;
+    use \Globalis\Robo\Task\Filesystem\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
