@@ -6,7 +6,6 @@ use Globalis\Robo\Tests\Util;
 use Globalis\Robo\Task\Filesystem\CopyReplaceDir;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
@@ -25,7 +24,8 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements Containe
     // Set up the Robo container so that we can create tasks in our tests.
     protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
     }
 
@@ -198,9 +198,9 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements Containe
             ])
             ->exclude(['test'])
             ->run();
-        $this->assertFileNotExists($this->copyFolder . '/test');
-        $this->assertFileNotExists($this->copyFolder . '/foo/test');
-        $this->assertFileNotExists($this->copyFolder . '/bar/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/foo/test');
+        $this->assertFileDoesNotExist($this->copyFolder . '/bar/test');
     }
 
     public function testRunWithBadSourceDirectory()
