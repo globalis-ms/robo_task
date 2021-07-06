@@ -20,6 +20,7 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase implements ContainerAwa
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
     }
 
