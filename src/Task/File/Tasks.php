@@ -2,7 +2,7 @@
 
 namespace Globalis\Robo\Task\File;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param $file

@@ -11,7 +11,7 @@ use Robo\Robo;
 
 class ConfigurationTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\Configuration\loadTasks;
+    use \Globalis\Robo\Task\Configuration\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 

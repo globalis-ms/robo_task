@@ -2,7 +2,7 @@
 
 namespace Globalis\Robo\Task\Composer;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @return Install

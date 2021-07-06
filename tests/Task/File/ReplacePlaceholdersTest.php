@@ -11,7 +11,7 @@ use Robo\Robo;
 
 class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInterface
 {
-    use \Globalis\Robo\Task\File\loadTasks;
+    use \Globalis\Robo\Task\File\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 
