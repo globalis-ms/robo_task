@@ -6,7 +6,6 @@ use Globalis\Robo\Tests\Util;
 use Globalis\Robo\Task\Filesystem\CleanWaste;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
 
@@ -19,7 +18,8 @@ class CleanWasteTest extends \PHPUnit\Framework\TestCase implements ContainerAwa
     // Set up the Robo container so that we can create tasks in our tests.
     protected function setUp(): void
     {
-        $container = Robo::createDefaultContainer(null, new NullOutput());
+        Robo::createContainer();
+        $container = Robo::getContainer();
         $this->setContainer($container);
     }
 
