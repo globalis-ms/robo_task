@@ -22,6 +22,7 @@ class FinishTest extends \PHPUnit\Framework\TestCase implements ContainerAwareIn
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
 
         $this->git = GitWorkDir::getOrNew('git-flow-feature-finish');

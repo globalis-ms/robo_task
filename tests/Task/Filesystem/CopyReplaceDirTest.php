@@ -26,6 +26,7 @@ class CopyReplaceDirTest extends \PHPUnit\Framework\TestCase implements Containe
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
     }
 

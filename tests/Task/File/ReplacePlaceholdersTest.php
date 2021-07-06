@@ -19,6 +19,7 @@ class ReplacePlaceholdersTest extends \PHPUnit\Framework\TestCase implements Con
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
     }
 

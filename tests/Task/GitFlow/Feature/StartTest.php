@@ -22,6 +22,7 @@ class StartTest extends \PHPUnit\Framework\TestCase implements ContainerAwareInt
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
 
         $this->git = GitWorkDir::getOrNew('git-flow-feature-start');
