@@ -40,9 +40,9 @@ class Tasks implements BuilderAwareInterface, IOAwareInterface, ContainerAwareIn
     use \Robo\Task\Gulp\Tasks;
 
     // shortcuts
-    use \Robo\Task\Base\loadShortcuts;
-    use \Robo\Task\Filesystem\loadShortcuts;
-    use \Robo\Task\Vcs\loadShortcuts;
+    use \Robo\Task\Base\Shortcuts;
+    use \Robo\Task\Filesystem\Shortcuts;
+    use \Robo\Task\Vcs\Shortcuts;
 
     //globalis task
     use \Globalis\Robo\Task\Composer\Tasks;
