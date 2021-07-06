@@ -19,6 +19,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase implements Container
     {
         Robo::createContainer();
         $container = Robo::getContainer();
+        Robo::finalizeContainer($container);
         $this->setContainer($container);
     }
 
