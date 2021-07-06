@@ -57,10 +57,10 @@ class RoboFile extends \Robo\Tasks
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
         foreach ($files as $file) {
-            if ($file->getFileName() == 'loadTasks.php') {
+            if ($file->getFileName() == 'Tasks.php') {
                 continue;
             }
-            if ($file->getFileName() == 'loadShortcuts.php') {
+            if ($file->getFileName() == 'Shortcuts.php') {
                 continue;
             }
             $ns = $file->getRelativePath();
