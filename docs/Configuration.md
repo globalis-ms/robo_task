@@ -57,5 +57,8 @@ $this->taskConfiguration()
 * `initLocal(array $config)`  Init settings variables
 * `localFilePath($filePath)`  Set local file path, Default User Home
 * `configFilePath($filePath)`  Set config file path, default Project Dir / .my_config
-* `force($bool = true)`  Force question
+* `force($bool = null)`  Force question
 * `emptyPattern($emptyPattern)`  Empty pattern
+* `currentState()` 
+* `restoreState($input = null, $output = null, $io = null)` 
+
