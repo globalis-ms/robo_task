@@ -27,7 +27,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase implements Container
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks();
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        $this->getContainer()->extend('collectionBuilder')->addArgument($emptyRobofile);
+        return $this->getContainer()->get('collectionBuilder', true);
     }
 
     public function testDefaultTaskValues()
