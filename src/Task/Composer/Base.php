@@ -2,10 +2,9 @@
 
 namespace Globalis\Robo\Task\Composer;
 
-use Composer\Console\Application;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Process\Process;
 
 abstract class Base extends BaseTask
 {
@@ -159,13 +158,11 @@ abstract class Base extends BaseTask
             unset($memoryInBytes, $memoryLimit);
         }
 
-        $input = new ArgvInput(explode(' ', $this->getCommand()));
-        try {
-            $application = new Application();
-            $application->setAutoExit(false);
-            $application->run($input);
-        } catch (Exception $e) {
-            return new Result($this, $e->getCode(), $e->getMessage());
+        $process = Process::fromShellCommandline($this->getCommand());
+        $process->run();
+
+        if ($process->getExitCode() !== 0) {
+            return new Result($this, $process->getExitCode(), $process->getErrorOutput());
         }
 
         return Result::success($this, 'Composer ' . $this->command);
