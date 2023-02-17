@@ -25,7 +25,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "consolidation/robo": "dev-3.x@dev",
+        "consolidation/robo": "3.x-dev@dev",
         "composer/composer": "^2.1.0"
     },
     "require-dev": {
