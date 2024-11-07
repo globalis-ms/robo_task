@@ -25,7 +25,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "consolidation/robo": "4.0.4",
+        "consolidation/robo": "^5.1",
         "composer/composer": "^2.7.7"
     },
     "require-dev": {
